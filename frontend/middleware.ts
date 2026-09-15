@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  let roles = [];
+  let roles: string[] = [];
   // const token = request.cookies.get("token")?.value;
   const token = Cookies.get("token");
   console.log("TOKEN: ", token);
