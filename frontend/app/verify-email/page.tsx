@@ -1,14 +1,16 @@
 "use client";
 import api from "@/src/axios";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { toast } from "sonner";
-export default function VerifyPage() {
+
+function VerifyContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const router = useRouter();
   const [status, setStatus] = useState("verifying");
   const [email, setEmail] = useState("");
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (!token) {
@@ -18,6 +20,8 @@ export default function VerifyPage() {
     }, 0);
 
     const verifyToken = async () => {
+      if (!token) return;
+
       const promise = api.post("/api/verifyEmail", { token: token });
 
       toast.promise(promise, {
@@ -29,8 +33,8 @@ export default function VerifyPage() {
           }, 3000);
           return res.data.msg;
         },
-        error: (error) => {
-          const err = error.response.data.error;
+        error: (error: any) => {
+          const err = error.response?.data?.error || "VERIFICATION_FAILED";
           setStatus("error");
           return err;
         },
@@ -55,9 +59,9 @@ export default function VerifyPage() {
         }, 3000);
         return res.data.msg;
       },
-      error: (err) => {
+      error: (err: any) => {
         setStatus("error");
-        return err.response.data.error;
+        return err.response?.data?.error || "FAILED_TO_SEND_TOKEN";
       },
     });
   };
@@ -112,5 +116,19 @@ export default function VerifyPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+          <div className="animate-spin w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full"></div>
+        </div>
+      }
+    >
+      <VerifyContent />
+    </Suspense>
   );
 }
