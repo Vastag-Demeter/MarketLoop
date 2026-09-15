@@ -74,26 +74,34 @@ export default function OrderDetailPage() {
   }, [order]);
 
   const updateStatus = async (stat: Status) => {
-    console.log(order?.id);
-    console.log(stat);
-    const promise = api.put("/api/changeOrderStatus", {
-      id: order?.id,
-      status_id: stat.id,
-    });
+    if (!order) return;
 
-    toast.promise(promise, {
-      loading: "UPDATING_ORDER...",
-      success: (res) => {
-        const updatedStatus = statuses.find((s) => s.id === stat.id);
-        setOrder({ ...order, status: updatedStatus });
-        fetchData();
-        return res.data.msg;
-      },
-      error: (err) => {
-        console.log(err);
-        return err.response?.data.errors[0] || "ERROR_DURING_UPDATE";
-      },
-    });
+      console.log(order.id);
+      console.log(stat);
+      const promise = api.put("/api/changeOrderStatus", {
+        id: order.id,
+        status_id: stat.id,
+      });
+
+      toast.promise(promise, {
+        loading: "UPDATING_ORDER...",
+        success: (res) => {
+          const updatedStatus = statuses.find((s) => s.id === stat.id);
+
+
+          setOrder({
+            ...order,
+            status: updatedStatus || stat
+          });
+
+          fetchData();
+          return res.data.msg;
+        },
+        error: (err) => {
+          console.log(err);
+          return err.response?.data.errors[0] || "ERROR_DURING_UPDATE";
+        },
+      });
   };
 
   if (loading)
