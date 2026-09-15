@@ -7,6 +7,7 @@
     "test": "node --experimental-vm-modules --trace-warnings node_modules/jest/bin/jest.js"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^6.0.3",
     "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^6.19.2",
     "bcryptjs": "^3.0.3",
