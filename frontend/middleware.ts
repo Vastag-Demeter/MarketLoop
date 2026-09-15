@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { User } from "./src/interfaces/user";
 
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -16,7 +17,7 @@ export function middleware(request: NextRequest) {
     try {
       const decodedData = decodeURIComponent(userPublicRaw);
       user = JSON.parse(decodedData);
-      roles = user?.roles || [];
+      roles = user?.roles?.map((r) => typeof r === "string" ? r : r.name) || [];
       permissions = user?.permissions || [];
     } catch (e) {
       console.error("Middleware parse error", e);
