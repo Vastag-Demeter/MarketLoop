@@ -15,7 +15,7 @@ import AddPhoneModal from "@/src/components/customer/add_phone_modal";
 import EditPhoneModal from "@/src/components/customer/modals/edit_phone_modal";
 
 interface PhoneNode {
-  id: number;
+  id?: number;
   phone_number: string;
 }
 
@@ -213,31 +213,30 @@ export default function PhonePage() {
         </div>
       </div>
 
-      {/* FOOTER DECOR */}
       <div className="mt-20 opacity-20 text-[8px] tracking-[1em] text-slate-500 uppercase">
         NEO_CORP_SYSTEM_COMM_PROTOCOL_V.4.2.0
       </div>
 
-      {/* Ide jönnek a Modal-ok majd */}
-      <AddPhoneModal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-        }}
-        onSave={handleAddPhone}
-        formData={formData}
-        setFormData={setFormData}
-      />
 
-      <EditPhoneModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        formData={formData}
-        setFormData={setFormData}
-        onUpdate={() => {
-          handleUpdatePhone();
-        }}
-      />
+      <AddPhoneModal
+              isOpen={isModalOpen}
+              onClose={() => {
+                setIsModalOpen(false);
+              }}
+              onSave={handleAddPhone}
+              formData={formData}
+              setFormData={setFormData as any}
+            />
+
+            <EditPhoneModal
+              isOpen={isEditModalOpen}
+              onClose={() => setIsEditModalOpen(false)}
+              formData={formData}
+              setFormData={setFormData as any}
+              onUpdate={() => {
+                handleUpdatePhone();
+              }}
+            />
     </div>
   );
 }

@@ -5,7 +5,7 @@ interface EditPhoneModalProps {
   isOpen: boolean;
   onClose: () => void;
   formData: {
-    id: number | null;
+    id?: number | null;
     phone_number: string;
   };
   setFormData: (data: any) => void;
