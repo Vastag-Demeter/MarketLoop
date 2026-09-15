@@ -8,8 +8,6 @@ dotenv.config();
 // Kényszerítjük a Node-ot, hogy az IPv4-et (127.0.0.1) preferálja az IPv6 (::1) helyett
 dns.setDefaultResultOrder("ipv4first");
 
-const resend = new Resend(process.env.RESEND_TOKEN);
-
 export const sendEmail = async (options) => {
   const env = process.env.NODE_ENV;
 
@@ -45,27 +43,34 @@ export const sendEmail = async (options) => {
       return info;
     } catch (err) {
       console.error("Mailtrap Error:", err.message);
-      // Ne dobjunk hibát, hogy a fejlesztés ne álljon meg, ha nincs net
       return { error: err.message };
     }
   }
 
   if (env === "prod") {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS
+      }
+    })
+
     try {
-      const { data, error } = await resend.emails.send({
-        from: "NEO-SHOP <onboarding@resend.dev>",
+      const mailOptions = {
+        from: options.from,
         to: options.email,
         subject: options.subject,
         html: options.message,
-      });
+      };
 
-      if (error) throw new Error(error.message);
+      const info = await transporter.sendEmail(mailOptions);
+      console.log("[PROD] Email sent with messageID: ", info.messageId);
+    }
+    catch (error) {
+      console.log("[PROD] email error: ", error.message);
+      return error(error.message);
 
-      console.log("PROD MODE: Sent via Resend. ID:", data.id);
-      return data;
-    } catch (err) {
-      console.error("Resend Error:", err.message);
-      throw err;
     }
   }
 };
