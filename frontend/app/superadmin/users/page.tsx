@@ -53,6 +53,7 @@ export default function SuperadminUsersPage() {
       email: apiUser.email,
       active: apiUser.active,
       roles: apiUser.roles.map((item: RoleApiResponse) => item.role),
+      permissions: [],
     };
   };
   useEffect(() => {
