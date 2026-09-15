@@ -172,7 +172,7 @@ export const signup = async (req, res) => {
 
     return res.status(201).json({ msg: "Signup successfull." });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json("Internal server error");
   }
 };
@@ -190,7 +190,7 @@ export const verifyEmail = async (req, res) => {
     if (!foundToken || foundToken.expires_at < Date.now()) {
       return res.status(400).json({ error: "Token is expired or not found." });
     }
-    console.log("TOKEN: " + foundToken.token);
+
 
     const updatedToken = await prisma.userVerifications.update({
       where: {

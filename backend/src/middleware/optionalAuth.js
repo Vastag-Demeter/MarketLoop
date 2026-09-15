@@ -9,7 +9,6 @@ export const optionalAuth = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_PASS);
-    console.log("DECODED: ", decoded);
     req.user = decoded;
     next();
   } catch (error) {

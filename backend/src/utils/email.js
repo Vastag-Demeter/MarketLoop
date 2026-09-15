@@ -5,10 +5,9 @@ import dns from "node:dns"; // DNS modul importálása
 
 dotenv.config();
 
-// Kényszerítjük a Node-ot, hogy az IPv4-et (127.0.0.1) preferálja az IPv6 (::1) helyett
-dns.setDefaultResultOrder("ipv4first");
 
 export const sendEmail = async (options) => {
+  console.log("[LOG]: SENDING EMAIL...")
   const env = process.env.NODE_ENV;
 
   if (env === "test") {
@@ -49,11 +48,14 @@ export const sendEmail = async (options) => {
 
   if (env === "prod") {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.GMAIL_USER,
         pass: process.env.GMAIL_PASS
-      }
+      },
+      family: 4
     })
 
     try {
