@@ -86,7 +86,7 @@ export default function StepLogistics({
   }, [user]);
 
   const selectAddress = (data: FormData) => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       full_name: data.full_name || prev.full_name,
       city: data.city?.name || "",
@@ -98,7 +98,7 @@ export default function StepLogistics({
   };
 
   const selectPhone = (phoneNum: string) => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       phone: phoneNum,
     }));
