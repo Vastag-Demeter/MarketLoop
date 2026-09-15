@@ -64,12 +64,12 @@ export const sendEmail = async (options) => {
         html: options.message,
       };
 
-      const info = await transporter.sendEmail(mailOptions);
+      const info = await transporter.sendMail(mailOptions);
       console.log("[PROD] Email sent with messageID: ", info.messageId);
     }
     catch (error) {
       console.log("[PROD] email error: ", error.message);
-      return error(error.message);
+      return {error: error.message};
 
     }
   }
