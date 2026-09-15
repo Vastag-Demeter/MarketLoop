@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Product, FormData, Vendor } from "@/src/interfaces/product";
 import { ICategory } from "@/src/interfaces/category";
+
 export default function EditProductModal({
   isOpen,
   onClose,
@@ -18,15 +19,34 @@ export default function EditProductModal({
   onUpdate: (data: FormData) => void;
 }) {
   const [formData, setFormData] = useState<FormData>({
-    id: product?.id || "",
-    name: product?.name || "",
-    description: product?.description || "",
-    category_id: product?.category.id || "",
-    vendor_id: product?.vendor.id || "",
-    base_price: product?.base_price || 0,
+    id: "",
+    name: "",
+    description: "",
+    category_id: "",
+    vendor_id: "",
+    base_price: 0,
   });
 
+  useEffect(() => {
+    if (product) {
+      setFormData({
+        id: product.id || "",
+        name: product.name || "",
+        description: product.description || "",
+        category_id: product.category?.id || "",
+        vendor_id: product.vendor?.id || "",
+        base_price: product.base_price || 0,
+      });
+    }
+  }, [product]);
+
   if (!isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onUpdate(formData);
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 font-mono">
@@ -47,123 +67,127 @@ export default function EditProductModal({
           </div>
         </div>
 
-        <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-1 md:col-span-2">
-            <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
-              Asset_Name
-            </label>
-            <input
-              type="text"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none transition-all uppercase font-bold"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
-          </div>
+        <form onSubmit={handleSubmit}>
+          <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-1 md:col-span-2">
+              <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
+                Asset_Name
+              </label>
+              <input
+                type="text"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none transition-all uppercase font-bold"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
+            </div>
 
-          <div className="space-y-1 md:col-span-2">
-            <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
-              Data_Description
-            </label>
-            <textarea
-              rows={3}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-cyan-500 outline-none transition-all text-xs uppercase"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-            />
-          </div>
+            <div className="space-y-1 md:col-span-2">
+              <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
+                Data_Description
+              </label>
+              <textarea
+                rows={3}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-cyan-500 outline-none transition-all text-xs uppercase"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+              />
+            </div>
 
-          <div className="space-y-1">
-            <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
-              Category
-            </label>
-            <select
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none transition-all appearance-none cursor-pointer hover:border-slate-700 font-bold uppercase"
-              // Fontos: a value a kiválasztott ID vagy név legyen a state-ből
-              value={product?.category?.id}
-              onChange={(e) =>
-                setFormData({ ...formData, category_id: e.target.value })
-              }
-            >
-              <option value="" disabled className="bg-slate-900 text-slate-500">
-                SELECT_CATEGORY...
-              </option>
-
-              {categories?.map((cat: ICategory) => (
-                <option
-                  key={cat.id}
-                  value={cat.id}
-                  className="bg-slate-900 text-white"
-                >
-                  {cat.name.toUpperCase()}
+            {/* CATEGORY SELECT */}
+            <div className="space-y-1">
+              <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
+                Category
+              </label>
+              <select
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none transition-all appearance-none cursor-pointer hover:border-slate-700 font-bold uppercase"
+                value={formData.category_id}
+                onChange={(e) =>
+                  setFormData({ ...formData, category_id: e.target.value })
+                }
+              >
+                <option value="" disabled className="bg-slate-900 text-slate-500">
+                  SELECT_CATEGORY...
                 </option>
-              ))}
-            </select>
-          </div>
 
-          <div className="space-y-1">
-            <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
-              Manufacturer_ID
-            </label>
-            <select
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none transition-all appearance-none cursor-pointer hover:border-slate-700 font-bold uppercase"
-              // Fontos: a value a kiválasztott ID vagy név legyen a state-ből
-              value={product?.category.id}
-              onChange={(e) =>
-                setFormData({ ...formData, category_id: e.target.value })
-              }
-            >
-              <option value="" disabled className="bg-slate-900 text-slate-500">
-                SELECT_VENDOR...
-              </option>
+                {categories?.map((cat: ICategory) => (
+                  <option
+                    key={cat.id}
+                    value={cat.id}
+                    className="bg-slate-900 text-white"
+                  >
+                    {cat.name.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-              {vendors?.map((ven: Vendor) => (
-                <option
-                  key={ven.id}
-                  value={ven.id}
-                  className="bg-slate-900 text-white"
-                >
-                  {ven.name}
+            {/* VENDOR SELECT */}
+            <div className="space-y-1">
+              <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
+                Manufacturer_ID
+              </label>
+              <select
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-500 outline-none transition-all appearance-none cursor-pointer hover:border-slate-700 font-bold uppercase"
+                value={formData.vendor_id}
+                onChange={(e) =>
+                  setFormData({ ...formData, vendor_id: e.target.value })
+                }
+              >
+                <option value="" disabled className="bg-slate-900 text-slate-500">
+                  SELECT_VENDOR...
                 </option>
-              ))}
-            </select>
+
+                {vendors?.map((ven: Vendor) => (
+                  <option
+                    key={ven.id}
+                    value={ven.id}
+                    className="bg-slate-900 text-white"
+                  >
+                    {ven.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* BASE PRICE INPUT */}
+            <div className="space-y-1">
+              <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
+                Base_Unit_Price ($)
+              </label>
+              <input
+                type="number"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-cyan-500 font-bold focus:border-cyan-500 outline-none transition-all"
+                value={formData.base_price}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    base_price: Number(e.target.value),
+                  })
+                }
+              />
+            </div>
           </div>
 
-          <div className="space-y-1">
-            <label className="text-[9px] text-slate-500 uppercase tracking-widest ml-1">
-              Base_Unit_Price ($)
-            </label>
-            <input
-              type="number"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-cyan-500 font-bold focus:border-cyan-500 outline-none transition-all"
-              value={formData.base_price}
-              onChange={(e) =>
-                setFormData({ ...formData, base_price: Number(e.target.value) })
-              }
-            />
+          <div className="p-6 bg-slate-950/50 border-t border-slate-800 flex gap-4">
+            <button
+              type="submit"
+              className="flex-1 py-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-black uppercase text-xs tracking-widest rounded-2xl transition-all shadow-lg shadow-cyan-900/20"
+            >
+              Apply_Changes
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-8 py-4 bg-transparent border border-slate-800 text-slate-500 hover:text-white rounded-2xl font-bold uppercase text-[10px] tracking-widest transition-all"
+            >
+              Cancel
+            </button>
           </div>
-        </div>
-
-        <div className="p-6 bg-slate-950/50 border-t border-slate-800 flex gap-4">
-          <button
-            onClick={() => {
-              onUpdate(formData);
-              onClose();
-            }}
-            className="flex-1 py-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-black uppercase text-xs tracking-widest rounded-2xl transition-all shadow-lg shadow-cyan-900/20"
-          >
-            Apply_Changes
-          </button>
-          <button
-            onClick={onClose}
-            className="px-8 py-4 bg-transparent border border-slate-800 text-slate-500 hover:text-white rounded-2xl font-bold uppercase text-[10px] tracking-widest transition-all"
-          >
-            Cancel
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   );

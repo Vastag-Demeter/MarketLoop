@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { User } from "./src/interfaces/user";
+import Cookies from 'js-cookie';
 
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  const token = request.cookies.get("token")?.value;
+  let roles = [];
+  // const token = request.cookies.get("token")?.value;
+  const token = Cookies.get("token");
+  console.log("TOKEN: ", token);
   const userPublicRaw = request.cookies.get("user_public")?.value;
 
   let user: User | null = null;
-  let roles: string[] = [];
   let permissions: string[] = [];
 
   if (userPublicRaw) {
@@ -18,6 +20,7 @@ export function middleware(request: NextRequest) {
       const decodedData = decodeURIComponent(userPublicRaw);
       user = JSON.parse(decodedData);
       roles = user?.roles?.map((r) => typeof r === "string" ? r : r.name) || [];
+      // console.log("ROLES:", roles)
       permissions = user?.permissions || [];
     } catch (e) {
       console.error("Middleware parse error", e);
@@ -44,7 +47,11 @@ export function middleware(request: NextRequest) {
       ].includes(p),
     );
 
-    if (!token || !hasAdminAccess) {
+    const isAdmin = roles.includes("ADMIN");
+    // console.log("PERMISSIONS: ", permissions)
+    if (!token || !isAdmin || !hasAdminAccess) {
+      console.log('Has admin role: ', isAdmin ? "YES" : "NO");
+      console.log("Redirecting false admin to ")
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

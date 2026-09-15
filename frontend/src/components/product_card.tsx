@@ -7,7 +7,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 import api from "../axios";
-import { Layers, Pencil, Power } from "lucide-react"; // Új ikonok a tisztább UX-hez
+import { Layers, Pencil, Power } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 
@@ -23,7 +24,8 @@ export default function ProductCard({
   vendors: Vendor[];
   onUpdate: (data: FormData) => void;
   onStatusChange: () => void;
-}) {
+  }) {
+  const router = useRouter();
   const { user, isAdmin } = useAuth();
   const isInactive = !product.is_active;
   const shouldShowAsDisabled = isInactive && isAdmin;
@@ -60,7 +62,7 @@ export default function ProductCard({
           fill
           loading="eager"
           alt={product.name}
-          className={`w-full h-full object-cover transition-transform duration-700 
+          className={`w-full h-full object-cover transition-transform duration-700
             ${shouldShowAsDisabled ? "opacity-40" : "opacity-80 group-hover:scale-110 group-hover:opacity-100"}
           `}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
@@ -85,7 +87,7 @@ export default function ProductCard({
       <div className="p-6 flex flex-col flex-1">
         <div className="flex justify-between items-start mb-2 gap-2">
           <h3
-            className={`font-bold text-lg tracking-tight uppercase transition-colors line-clamp-2 
+            className={`font-bold text-lg tracking-tight uppercase transition-colors line-clamp-2
             ${shouldShowAsDisabled ? "text-slate-600" : "text-white group-hover:text-cyan-400"}`}
           >
             {product.name}
@@ -107,7 +109,12 @@ export default function ProductCard({
             <>
               <div className="grid grid-cols-2 gap-2">
                 <button
-                  onClick={() => setIsEditOpen(true)}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsEditOpen(true);
+                  }}
                   className="flex items-center justify-center gap-2 py-2.5 bg-slate-800 border border-slate-700 text-white text-[10px] font-black rounded-xl uppercase tracking-widest hover:bg-slate-700 transition-all active:scale-95"
                 >
                   <Pencil size={12} />
@@ -126,15 +133,22 @@ export default function ProductCard({
                 </button>
               </div>
 
-              <Link
+              {/*<Link
                 href={`/admin/products/variants/${product.id}`}
                 className="block"
-              >
-                <button className="w-full flex items-center justify-center gap-2 py-2.5 bg-cyan-600/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-black rounded-xl uppercase tracking-[0.2em] hover:bg-cyan-500/20 transition-all active:scale-[0.98]">
+              >*/}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(`/admin/products/variants/${product.id}`)
+                }}
+                className="w-full flex items-center justify-center gap-2 py-2.5 bg-cyan-600/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-black rounded-xl uppercase tracking-[0.2em] hover:bg-cyan-500/20 transition-all active:scale-[0.98]">
+
                   <Layers size={14} />
                   Manage_Variants
                 </button>
-              </Link>
+              {/*</Link>*/}
             </>
           ) : (
             <Link href={`/products/details/${product.id}`}>
