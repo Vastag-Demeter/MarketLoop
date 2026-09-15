@@ -15,7 +15,7 @@ import AddPhoneModal from "@/src/components/customer/add_phone_modal";
 import EditPhoneModal from "@/src/components/customer/modals/edit_phone_modal";
 
 interface PhoneNode {
-  id?: number;
+  id: number;
   phone_number: string;
 }
 
@@ -176,14 +176,14 @@ export default function PhonePage() {
                     </div>
                     <div className="flex gap-4 text-[9px] text-slate-600 font-bold uppercase tracking-widest">
                       <span>
-                        Node_ID: {phone?.id.toString().padStart(4, "0")}
+                        Node_ID: {(phone.id ?? 0).toString().padStart(4, "0")}
                       </span>
                       <span>Type: Mobile_Unit</span>
                     </div>
                   </div>
 
                   <button
-                    onClick={() => handleDeletePhone(phone.id)}
+                    onClick={() => phone.id && handleDeletePhone(phone.id)}
                     className="p-4 bg-slate-950 text-slate-600 hover:text-red-500 border border-slate-900 rounded-2xl transition-all hover:border-red-500/30"
                   >
                     <Trash2 size={20} />
