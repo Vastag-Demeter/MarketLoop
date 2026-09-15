@@ -82,7 +82,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         lastFetchedId.current = currentId;
       }
     } catch (error) {
-      if (error.response?.status === 404 && !isCreating.current) {
+      if ((error as any).response?.status === 404 && !isCreating.current) {
         isCreating.current = true;
         try {
           const createRes = await api.post("/api/createCart", {
