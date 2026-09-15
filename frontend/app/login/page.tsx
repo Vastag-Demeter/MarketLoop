@@ -13,6 +13,8 @@ export default function LoginPage() {
   const { login, config, isCustomer } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const router = useRouter();
   const { fetchCart } = useCart();
 
