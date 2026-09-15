@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import api from "@/src/axios";
 import { toast } from "sonner";
-import { Role } from "@/src/interfaces/user";
+import { Role, User } from "@/src/interfaces/user";
 import RoleManagementModal from "@/src/components/superadmin/role_management_modal";
 
 interface UserApiResponse {
@@ -31,14 +31,6 @@ interface RoleApiResponse {
   role_id: number;
 }
 
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  roles: Role[];
-  active: boolean | null;
-}
 
 export default function SuperadminUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
