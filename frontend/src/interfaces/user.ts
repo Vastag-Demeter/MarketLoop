@@ -12,5 +12,5 @@ export interface User {
   email: string;
   roles: Role[];
   active: boolean | null;
-  permissions?: string[]
+  permissions: string[]
 }
