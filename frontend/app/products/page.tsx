@@ -1,12 +1,13 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import api from "@/src/axios";
 import ProductCard from "@/src/components/product_card";
 import { Product, Vendor } from "@/src/interfaces/product";
 import { ICategory } from "@/src/interfaces/category";
 
-export default function ProductsPage() {
+
+function ProductsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -40,11 +41,7 @@ export default function ProductsPage() {
   useEffect(() => {
     fetchData();
   }, []);
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
 
-  // Kategória váltás ID alapján
   const handleCategoryChange = (categoryId: string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (categoryId === "") {
@@ -61,7 +58,6 @@ export default function ProductsPage() {
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
 
-      // Összehasonlítás: product.category.id (szám) vs activeCategoryId (string az URL-ből)
       const matchesCategory = activeCategoryId
         ? product.category?.id.toString() === activeCategoryId
         : true;
@@ -104,10 +100,8 @@ export default function ProductsPage() {
           {categories.map((cat) => (
             <button
               key={cat.id}
-              // Itt az ID-t adjuk át a függvénynek
               onClick={() => handleCategoryChange(cat.id.toString())}
               className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all ${
-                // Az összehasonlítás stringként történik az URL miatt
                 activeCategoryId === cat.id.toString()
                   ? "bg-cyan-600 border-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.3)]"
                   : "bg-slate-900/30 border-slate-800 text-slate-500 hover:border-slate-700"
@@ -119,7 +113,7 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* TERMÉK RÁCS */}
+
       <div className="max-w-7xl mx-auto px-8">
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
@@ -146,5 +140,20 @@ export default function ProductsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+
+export default function ProductsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <ProductsContent />
+    </Suspense>
   );
 }
