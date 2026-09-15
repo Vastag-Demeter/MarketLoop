@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ShieldAlert, Trash2, Loader2, Key } from "lucide-react";
 import api from "@/src/axios";
 import { toast } from "sonner";
 
-export default function CancelOrderPage() {
+function CancelOrderForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [orderNumber, setOrderNumber] = useState(
@@ -15,7 +15,6 @@ export default function CancelOrderPage() {
     searchParams.get("token") || "",
   );
   const [isPending, setIsPending] = useState(false);
-  console.log(cancelToken);
 
   const handleCancel = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +29,8 @@ export default function CancelOrderPage() {
         router.push("/products");
         return res.data.msg;
       },
-      error: (error) => {
-        return error.response.data.error;
+      error: (error: any) => {
+        return error.response?.data?.error || "Hiba történt a törlés során";
       },
     });
     setIsPending(false);
@@ -55,7 +54,6 @@ export default function CancelOrderPage() {
 
         <form onSubmit={handleCancel} className="space-y-4">
           <div className="space-y-4 bg-slate-900/20 p-6 rounded-[2rem] border border-slate-800">
-            {/* ORDER NUMBER */}
             <div className="space-y-1">
               <label className="text-[8px] font-black text-slate-600 uppercase ml-2">
                 Registry_ID
@@ -113,5 +111,18 @@ export default function CancelOrderPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+
+export default function CancelOrderPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <Loader2 className="animate-spin text-red-500" size={32} />
+      </div>
+    }>
+      <CancelOrderForm />
+    </Suspense>
   );
 }
