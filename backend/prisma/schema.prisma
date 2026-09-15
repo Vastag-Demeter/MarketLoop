@@ -1,0 +1,472 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["debian-openssl-3.0.x"]
+  output = "../node_modules/.prisma/client"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+
+//Table of users
+model User{
+    id Int @id @default(autoincrement())
+    first_name String
+    last_name String
+    email String @unique
+    password String
+    verified_at DateTime?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    active Boolean @default(true)
+
+    roles UserRoles[]
+    Verifications UserVerifications[]
+    activations UserActivations[]
+    phoneNumbers PhoneNumbers[]
+    creditCards CreditCards[]
+    addresses Addresses[]
+
+    carts Carts[]
+    orders Orders[]
+    supportTicket SupportTickets[]
+    userMessages TicketMessages[] @relation("UserMessages")
+    agentMessages TicketMessages[] @relation("AgentMessages")
+    emailLog EmailLogs[]
+    @@map("users")
+}
+
+
+//Junction table for many-to-many relationship between users and roles
+model UserRoles{
+    user_id Int 
+    role_id Int
+    assigned_at DateTime @default(now())
+
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    role Roles @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+
+    @@id([user_id, role_id])
+    @@map("user_roles")
+}
+
+//Table of specific roles
+model Roles {
+    id Int @id @default(autoincrement())
+    key String @unique
+    name String @unique
+    is_active Boolean @default(true)
+
+    permissions RolePermission[]
+    roles UserRoles[]
+
+    @@map("roles")
+}
+
+//Tabel for permissions
+model Permissions {
+    id Int @id @default(autoincrement())
+    key String @unique
+    name String @unique
+
+    role RolePermission[]
+    @@map("permissions")
+}
+
+model RolePermission {
+    role_id Int
+    permission_id Int
+    role Roles @relation(fields: [role_id], references: [id], onDelete: Cascade)
+    permission Permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+
+    @@id([role_id, permission_id])
+    @@map("role_permissions")
+}
+
+//Table for user verification tokens
+model UserVerifications {
+    id Int @id @default(autoincrement())
+    user_id Int
+    token String @unique
+    created_at DateTime @default(now())
+    expires_at DateTime
+    verified_at DateTime?
+
+
+
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    @@map("user_verifications")
+}
+
+model UserActivations {
+    id Int @id @default(autoincrement())
+    user_id Int
+    code String 
+    created_at DateTime @default(now())
+    expires_at DateTime
+    activated_at DateTime?
+
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    @@map("user_activations")
+}
+
+
+//Table for user phone numbers
+model PhoneNumbers{
+    id Int @id @default(autoincrement())
+    user_id Int
+    phone_number String @unique
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    @@map("phone_numbers")
+}
+
+//Table for user credit cards
+model CreditCards{
+    id Int @id @default(autoincrement())
+    user_id Int
+    card_token String @unique
+    last_four String
+    expiration_date String
+    card_type String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    user User @relation(fields: [user_id], references: [id])
+    @@map("credit_cards")
+}
+
+//Table for user addresses
+model Addresses{
+    id Int @id @default(autoincrement())
+    user_id Int
+    country_id Int
+    city_id Int
+    street_id Int
+    house_number String
+    floor String?
+    door String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    user User @relation(fields: [user_id], references: [id])
+    country Countries @relation(fields: [country_id], references: [id])
+    city Cities @relation(fields: [city_id], references: [id])
+    street Streets @relation(fields: [street_id], references: [id])
+
+    @@map("addresses")
+}
+
+//Table for countries
+model Countries{
+    id Int @id @default(autoincrement())
+    name String @unique
+
+    addresses Addresses[]
+    @@map("countries")
+}
+
+//Table for cities
+model Cities{
+    id Int @id @default(autoincrement())
+    postal_code String
+    name String
+
+    addresses Addresses[]
+	@@unique([name, postal_code])
+    @@map("cities")
+}
+
+//Table for streets
+model Streets{
+    id Int @id @default(autoincrement())
+    name String
+
+    addresses Addresses[]
+	@@unique([name])
+    @@map("streets")
+}
+
+//Table for products
+model Products{
+    id Int @id @default(autoincrement())
+    sku String @unique
+    name String
+    description String
+    category_id Int
+    vendor_id Int
+    base_price Float
+    is_active Boolean @default(true)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    images ProductImages[]
+    category Categories @relation(fields: [category_id], references: [id])
+    vendor Vendors @relation(fields: [vendor_id], references: [id])
+    variants ProductVariants[]
+    @@map("products")
+}
+
+//Table for product images
+model ProductImages{
+    id Int @id @default(autoincrement())
+    product_id Int
+    sort_order Int
+    url String
+    created_at DateTime @default(now())
+
+    product Products @relation(fields: [product_id], references: [id])
+    @@map("product_images")
+}
+
+//Table for product categories
+model Categories{
+    id Int @id @default(autoincrement())
+    name String @unique
+    parent_id Int?
+    slug String @unique
+    is_active Boolean @default(true)
+    products Products[]
+    @@map("categories")
+}
+
+//Table for product vendors
+model Vendors{
+    id Int @id @default(autoincrement())
+    name String @unique
+    is_active Boolean @default(true)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    products Products[]
+    emails VendorEmails[]
+    @@map("vendors")
+}
+
+//Table for vendor emails
+model VendorEmails{
+    id Int @id @default(autoincrement())
+    vendor_id Int
+    email String @unique
+    is_primary Boolean @default(false)
+    is_active Boolean @default(true)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    vendor Vendors @relation(fields: [vendor_id], references: [id])
+    @@map("vendor_emails")
+}
+
+//Table for product variants
+model ProductVariants{
+    id Int @id @default(autoincrement())
+    product_id Int
+    variant_sku String @unique  
+    stock Int @default(0)
+    price_modifier Float @default(0.0)
+    is_active Boolean @default(true)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    product Products @relation(fields: [product_id], references: [id])
+    attributeValues VariantAttributeValues[]
+    cartItems CartItems[]
+    orderItems OrderItems[]
+    @@map("product_variants")
+}
+//Junction table for many-to-many relationship between product variants and attribute values
+model VariantAttributeValues{
+    id Int @id @default(autoincrement())
+    variant_id Int
+    attribute_value_id Int
+    is_active Boolean @default(true)
+
+    variant ProductVariants @relation(fields: [variant_id], references: [id])
+    attributeValue AttributeValues @relation(fields: [attribute_value_id], references: [id])
+    @@unique([variant_id, attribute_value_id])
+    @@map("variant_attribute_values")
+}
+
+//Table for product attribute values
+model AttributeValues{
+    id Int @id @default(autoincrement())
+    attribute_id Int
+    value String
+    is_active Boolean @default(true)
+    variantValues VariantAttributeValues[]
+    attribute Attributes @relation(fields: [attribute_id], references: [id])
+    @@unique([attribute_id, value])
+    @@map("attribute_values")
+}
+
+//Table for attributes
+model Attributes{
+    id Int @id @default(autoincrement())
+    name String @unique
+    is_active Boolean @default(true)
+    attributeValues AttributeValues[]
+    @@map("attributes")
+}
+
+//Table for shopping carts
+model Carts{
+    id Int @id @default(autoincrement())
+    user_id Int?
+    session_token String? @unique
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    user User? @relation(fields: [user_id], references: [id])
+    cartItems CartItems[]
+    @@map("carts")
+}
+
+
+//Table for cart items
+model CartItems{
+    id Int @id @default(autoincrement())
+    cart_id Int
+    variant_id Int
+    quantity Int @default(1)
+    selected_attributes Json?
+    cart Carts @relation(fields: [cart_id], references: [id])
+    variant ProductVariants @relation(fields: [variant_id], references: [id])
+    @@map("cart_items")
+}
+
+//Table for orders
+model Orders{
+    id Int @id @default(autoincrement())
+    user_id Int?
+    customer_email String
+    customer_name String
+    customer_phone String
+
+    order_number String @unique
+    status_id Int
+    total_amount Float
+    shipping_cost Float
+    payment_method_id Int
+    billing_address Json
+    shipping_address Json
+    cancel_token String @unique @default(uuid())
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    user User? @relation(fields: [user_id], references: [id])
+    status OrderStatuses @relation(fields: [status_id], references: [id])
+    paymentMethod PaymentMethods @relation(fields: [payment_method_id], references: [id])
+
+    items OrderItems[]
+    @@map("orders")
+}
+
+//Table for order statuses
+model OrderStatuses{
+    id Int @id @default(autoincrement())
+    name String @unique
+    is_final Boolean @default(false)
+    orders Orders[]
+    @@map("order_statuses")
+}
+
+//Table for payment methods
+model PaymentMethods{
+    id Int @id @default(autoincrement())
+    name String @unique
+    is_active Boolean @default(true)
+    orders Orders[]
+    @@map("payment_methods")
+}
+
+//Table for order items
+model OrderItems{
+    id Int @id @default(autoincrement())
+    order_id Int
+    variant_id Int
+    
+    variant_sku String 
+    name        String 
+    unit_price  Float  
+    quantity    Int    @default(1)
+    selected_attributes Json?
+    
+    order   Orders          @relation(fields: [order_id], references: [id])
+    variant ProductVariants @relation(fields: [variant_id], references: [id])
+    @@map("order_items")
+}
+
+//Table for support tickets
+model SupportTickets{
+    id Int @id @default(autoincrement())
+    access_token String @unique @default(uuid())
+    user_id Int?
+    guest_email String
+    subject String
+    status_id Int
+    last_reply_at DateTime
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    user User? @relation(fields: [user_id], references: [id])
+    ticketStatus SupportTicketStatuses @relation(fields: [status_id], references: [id])
+    ticketMessages TicketMessages[]
+    @@map("support_tickets")
+}
+
+//Table for the support ticket statuses
+model SupportTicketStatuses{
+    id Int @id @default(autoincrement())
+    name String
+    is_active Boolean @default(true)
+    supportTicket SupportTickets[]
+
+    @@map("support_ticket_statuses")
+}
+
+//Table for the messages in the ticket
+model TicketMessages{
+    id Int @id @default(autoincrement())
+    ticket_id Int
+    user_id Int?
+    agent_user_id Int? 
+    message String
+    created_at DateTime @default(now())
+
+
+    ticket SupportTickets @relation(fields: [ticket_id], references: [id])
+    user User? @relation("UserMessages", fields: [user_id], references: [id])
+    agent User? @relation("AgentMessages", fields: [agent_user_id], references: [id])
+    @@map("ticket_messages")
+}
+
+//Table for email logs
+model EmailLogs{
+    id Int @id @default(autoincrement())
+    recipient_email String
+    user_id Int?
+    type_id Int
+    subject String
+    body String
+    sent_at DateTime @default(now())
+
+    @@map("email_logs")
+    user User? @relation(fields: [user_id], references: [id])
+    type EmailTypes @relation(fields: [type_id], references: [id])
+
+}
+
+//Table for specific email types
+model EmailTypes {
+    id Int @id @default(autoincrement())
+    name String @unique
+    is_active Boolean @default(true)
+    @@map("email_types")
+    email EmailLogs[]
+}

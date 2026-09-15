@@ -1,0 +1,10 @@
+Might be better if there is and is_active field in table "SupportTicketStatuses" and just changing the activeness.
+Add AddOrderItem function, url to it
+Add urls for attribute variants
+Add id test for product variants
+TEST: 
+Payment methods
+Cart items
+Carts
+Email types
+Transaction statuses

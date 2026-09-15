@@ -1,0 +1,87 @@
+networks:
+  thesis-network:
+
+volumes:
+  pgdata:
+  webshop_db:
+
+services:
+  web_db:
+    image: postgres:15
+    container_name: webshop_db
+    restart: always
+    environment:
+      - POSTGRES_USER=${WEBSHOP_DB_USER}
+      - POSTGRES_PASSWORD=${WEBSHOP_DB_PASS}
+      - POSTGRES_DB=${WEBSHOP_DB_NAME}
+    ports:
+      - "${WEBSHOP_DB_PORT}:5432"
+    volumes:
+      - webshop_db:/var/lib/postgresql/data
+    networks:
+      - thesis-network
+  backend:
+    image: vastagdemeter/thesis_backend:latest
+    container_name: webshop_backend
+    env_file:
+      - ./.env
+    command: sh -c "npx prisma migrate reset -f && npm run dev"
+    depends_on:
+      - web_db
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      PORT: 4000
+    networks:
+      - thesis-network
+  frontend:
+    image: vastagdemeter/thesis_frontend:latest
+    container_name: webshop_frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - thesis-network
+    depends_on:
+      - backend
+    restart: always
+  token_vault_db:
+    image: postgres:15-alpine
+    container_name: token_vault_db
+    environment:
+      POSTGRES_USER: ${TOKEN_DB_USER}
+      POSTGRES_PASSWORD: ${TOKEN_DB_PASSWORD}
+      POSTGRES_DB: ${TOKEN_DB_NAME}
+    ports:
+      - "${TOKEN_DB_PORT}:5432"
+    expose:
+      - ${TOKEN_DB_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - thesis-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${TOKEN_DB_USER} -d ${TOKEN_DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+  token_api:
+    image: vastagdemeter/token-vault:latest
+    container_name: token_vault_api
+    environment:
+      PORT: ${PORT}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      TOKEN_VAULT_API_KEYS: ${TOKEN_VAULT_API_KEYS}
+      WEBHOOK_SERVICE_KEY: ${WEBHOOK_SERVICE_KEY}
+      TRANSACTION_SERVICE_KEY: ${TRANSACTION_SERVICE_KEY}
+      DUMMY_BANK_KEY: ${DUMMY_BANK_KEY}
+      DATABASE_URL: postgresql://${TOKEN_DB_USER}:${TOKEN_DB_PASSWORD}@token_vault_db:5432/${TOKEN_DB_NAME}
+    ports:
+      - "3005:3005"
+    depends_on:
+      token_vault_db:
+        condition: service_healthy
+    networks:
+      - thesis-network
+    restart: always
