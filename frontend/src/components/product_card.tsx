@@ -24,9 +24,12 @@ export default function ProductCard({
   vendors: Vendor[];
   onUpdate: (data: FormData) => void;
   onStatusChange: () => void;
-  }) {
+}) {
   const router = useRouter();
   const { user, isAdmin } = useAuth();
+  const canManageProduct = user?.permissions.includes("PRODUCTS_FULL_ACCESS");
+  console.log(canManageProduct);
+
   const isInactive = !product.is_active;
   const shouldShowAsDisabled = isInactive && isAdmin;
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -105,7 +108,7 @@ export default function ProductCard({
         </p>
 
         <div className="mt-auto pt-4 space-y-2">
-          {isAdmin ? (
+          {canManageProduct ? (
             <>
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -133,22 +136,17 @@ export default function ProductCard({
                 </button>
               </div>
 
-              {/*<Link
-                href={`/admin/products/variants/${product.id}`}
-                className="block"
-              >*/}
               <button
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  router.push(`/admin/products/variants/${product.id}`)
+                  router.push(`/admin/products/variants/${product.id}`);
                 }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 bg-cyan-600/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-black rounded-xl uppercase tracking-[0.2em] hover:bg-cyan-500/20 transition-all active:scale-[0.98]">
-
-                  <Layers size={14} />
-                  Manage_Variants
-                </button>
-              {/*</Link>*/}
+                className="w-full flex items-center justify-center gap-2 py-2.5 bg-cyan-600/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-black rounded-xl uppercase tracking-[0.2em] hover:bg-cyan-500/20 transition-all active:scale-[0.98]"
+              >
+                <Layers size={14} />
+                Manage_Variants
+              </button>
             </>
           ) : (
             <Link href={`/products/details/${product.id}`}>

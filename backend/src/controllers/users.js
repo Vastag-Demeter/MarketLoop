@@ -76,10 +76,11 @@ export const login = async (req, res) => {
       { expiresIn: "1h" },
     );
 
+    const isProd = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === 'prod' ? 'none' : 'lax',
-      secure: process.env.NODE_ENV === "prod",
+      sameSite: isProd ? 'none' : 'lax',
+      secure: isProd,
       maxAge: 3600000,
     });
 
@@ -290,6 +291,12 @@ export const logout = async (req, res) => {
   const token = req.cookies.token;
   if (isEmptyOrWhiteSpace(token))
     return res.status(401).json({ error: "Not logged in. Access denied." });
-  res.clearCookie("token");
+
+  const isProd = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
+  res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: isProd ? "none" : "lax",
+      secure: isProd,
+    });
   return res.status(200).json({ msg: "Logged out succesfully" });
 };

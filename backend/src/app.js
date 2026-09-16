@@ -20,26 +20,23 @@ app.use(express.json());
 app.use(cookieParser());
 
 const allowedOrigins = [
-  'http://localhost:3000',
-  'https://market-loop-khaki.vercel.app',
-]
+  "http://localhost:3000",
+  "https://market-loop-khaki.vercel.app",
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('CORS policy error: Origin not allowed'));
+      callback(new Error("CORS policy error: Origin not allowed"));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 };
 
-
-app.use(
-  cors(corsOptions),
-);
+app.use(cors(corsOptions));
 
 app.use("/api", userRouter);
 app.use("/api", transactionRouter);
