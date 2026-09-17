@@ -4,6 +4,7 @@ export const getEmailLogs = async (req, res) => {
   try {
     const logs = await prisma.emailLogs.findMany({
       select: {
+        id: true,
         recipient_email: true,
         subject: true,
         sent_at: true,
