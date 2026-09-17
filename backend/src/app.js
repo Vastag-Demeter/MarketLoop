@@ -44,4 +44,8 @@ app.use("/api", productRouter);
 app.use("/api", serviceRouter);
 app.use("/api", orderRoutes);
 app.use("/api", helpdeskRoutes);
+app.get("/api/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 export default app;
