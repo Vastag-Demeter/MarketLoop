@@ -4,7 +4,6 @@ import { User } from "./src/interfaces/user";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  let roles: string[] = [];
   const userPublicRaw = request.cookies.get("user_public")?.value;
 
   let user: User | null = null;
@@ -14,9 +13,6 @@ export function middleware(request: NextRequest) {
     try {
       const decodedData = decodeURIComponent(userPublicRaw);
       user = JSON.parse(decodedData);
-      roles =
-        user?.roles?.map((r) => (typeof r === "string" ? r : r.name)) || [];
-      // console.log("ROLES:", roles)
       permissions = user?.permissions || [];
     } catch (e) {
       console.error("Middleware parse error", e);
@@ -39,24 +35,55 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (pathname.startsWith("/admin/products/variants")) {
+  if (pathname.startsWith("/admin/products/**")) {
     const canManageProduct = permissions.some((p) =>
       ["PRODUCTS_FULL_ACCESS"].includes(p),
     );
     if (!userPublicRaw || !canManageProduct) {
-      console.log("Redirecting false admin to homepage");
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+  if (
+    pathname.startsWith("/superadmin/users") ||
+    pathname.startsWith("/superadmin/add-staff")
+  ) {
+    const canManageUsers = permissions.some((p) =>
+      ["USER_MANAGEMENT"].includes(p),
+    );
+    if (!userPublicRaw || !canManageUsers) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+  if (pathname.startsWith("/superadmin/roles")) {
+    const canManageRoles = permissions.some((p) =>
+      ["ROLE_MANAGEMENT"].includes(p),
+    );
+    if (!userPublicRaw || !canManageRoles) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  if (pathname.startsWith("/superadmin/email-logs")) {
+    const canViewEmailLogs = permissions.some((p) =>
+      ["EMAIL_LOGS_VIEW"].includes(p),
+    );
+    if (!userPublicRaw || !canViewEmailLogs) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  if (pathname.startsWith("/superadmin/vendors")) {
+    const canManageVendors = permissions.some((p) =>
+      ["VENDORS_MANAGE"].includes(p),
+    );
+    if (!userPublicRaw || !canManageVendors) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
   if (pathname.startsWith("/superadmin")) {
     const hasSuperAdminAccess = permissions.some((p) =>
-      [
-        "USER_MANAGEMENT",
-        "ROLE_MANAGEMENT",
-        "SYSTEM_CONFIG",
-        "VENDORS_MANAGE",
-      ].includes(p),
+      ["SYSTEM_CONFIG"].includes(p),
     );
 
     if (!userPublicRaw || !hasSuperAdminAccess) {
