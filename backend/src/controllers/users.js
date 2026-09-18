@@ -76,10 +76,11 @@ export const login = async (req, res) => {
       { expiresIn: "1h" },
     );
 
-    const isProd = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
+    const isProd =
+      process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: isProd ? 'none' : 'lax',
+      sameSite: isProd ? "none" : "lax",
       secure: isProd,
       maxAge: 3600000,
     });
@@ -140,7 +141,8 @@ export const signup = async (req, res) => {
         .json({ error: "Signup failed due to internal server error." });
 
     const verificationToken = crypto.randomBytes(32).toString("hex");
-    const verificationUrl = `http://localhost:3000/verify-email?token=${verificationToken}`;
+    console.log(process.env.FRONTEND_API_URL);
+    const verificationUrl = `${process.env.FRONTEND_API_URL}/verify-email?token=${verificationToken}`;
 
     const insertToken = await prisma.userVerifications.create({
       data: {
@@ -192,7 +194,6 @@ export const verifyEmail = async (req, res) => {
       return res.status(400).json({ error: "Token is expired or not found." });
     }
 
-
     const updatedToken = await prisma.userVerifications.update({
       where: {
         token: token,
@@ -228,7 +229,7 @@ export const sendNewVerificationToken = async (req, res) => {
 
   try {
     const verificationToken = crypto.randomBytes(32).toString("hex");
-    const verificationUrl = `http://localhost:3000/verify-email?token=${verificationToken}`;
+    const verificationUrl = `${process.env.FRONTEND_API_URL}/verify-email?token=${verificationToken}`;
 
     const getUser = await prisma.user.findFirst({
       where: {
@@ -292,11 +293,12 @@ export const logout = async (req, res) => {
   if (isEmptyOrWhiteSpace(token))
     return res.status(401).json({ error: "Not logged in. Access denied." });
 
-  const isProd = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
+  const isProd =
+    process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
   res.clearCookie("token", {
-      httpOnly: true,
-      sameSite: isProd ? "none" : "lax",
-      secure: isProd,
-    });
+    httpOnly: true,
+    sameSite: isProd ? "none" : "lax",
+    secure: isProd,
+  });
   return res.status(200).json({ msg: "Logged out succesfully" });
 };

@@ -47,7 +47,7 @@ export const createSupportTicket = async (req, res) => {
       return ticket;
     });
     console.log(result);
-    const url = `http://localhost:3000/support/ticket/${result.access_token}`;
+    const url = `${process.env.FRONTED_API_URL}/support/ticket/${result.access_token}`;
     await sendEmail({
       from: `WebShop Helpdesk <helpdesk.webshop@webshop.hu>`,
       email: result.guest_email,
@@ -113,7 +113,7 @@ export const replyToTicket = async (req, res) => {
       };
     });
 
-    const url = `http://localhost:3000/support/ticket/${result.access_token}`;
+    const url = `${process.env.FRONTED_API_URL}/support/ticket/${result.access_token}`;
     await sendEmail({
       from: `WebShop Helpdesk <helpdesk.webshop@webshop.hu>`,
       email: result.email,
@@ -283,7 +283,7 @@ export const toggleTicketStatus = async (req, res) => {
         new: updatedTicket,
       };
     });
-    const url = `http://localhost:3000/support/ticket/${result.new.access_token}`;
+    const url = `${process.env.FRONTEND_API_URL}/support/ticket/${result.new.access_token}`;
     await sendEmail({
       from: `WebShop Helpdesk <helpdesk.webshop@webshop.hu>`,
       email: result.new.guest_email,

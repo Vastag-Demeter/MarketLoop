@@ -142,7 +142,7 @@ export const addOrder = async (req, res) => {
     const recipientEmail = user?.email || customer_email;
 
     try {
-      const cancelUrl = `http://localhost:3000/cancel-order?number=${createdOrder.order_number}&token=${cancelToken}`;
+      const cancelUrl = `${process.env.FRONTED_API_URL}/cancel-order?number=${createdOrder.order_number}&token=${cancelToken}`;
       const emailSubject = `[LOOP_MARKET] Transmission Received: ${createdOrder.order_number}`;
       const emailBody = orderConfirmationTemplate(createdOrder, cancelUrl);
 
