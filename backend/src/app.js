@@ -10,7 +10,7 @@ import orderRoutes from "./routes/orders.routes.js";
 import helpdeskRoutes from "./routes/helpdesk.routes.js";
 import { loadStatuses } from "./constants/ticketStatuses.js";
 import { loadEmailTypes } from "./constants/emailTypes.js";
-
+import { logger } from "./utils/logger.js";
 dotenv.config();
 
 const app = express();
@@ -37,6 +37,14 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use((err, req, res, next) => {
+  logger.error("Unhandled error:", err, {
+    url: req.originalUrl,
+    method: req.method,
+    ip: req.ip,
+  });
+});
 
 app.use("/api", userRouter);
 app.use("/api", transactionRouter);
