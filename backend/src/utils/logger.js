@@ -1,42 +1,32 @@
 import { Logtail } from "@logtail/node";
 import dotenv from "dotenv";
 dotenv.config();
-const isProd =
-  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
+const token = process.env.LOGTAIL_SOURCE_TOKEN;
 
-const logtail = new Logtail(process.env.LOGTAIL_SOURCE_TOKEN || "");
+const endpoint = "https://s2772572.us-west-2a.betterstackdata.com";
+
+export const logtail = new Logtail(token, {
+  endpoint: endpoint,
+});
 
 export const logger = {
-  info: (message, context = {}) => {
-    if (isProd) {
-      logtail.warn(message, context);
-    } else {
-      console.warn(
-        `[WARN] ${message}`,
-        Object.keys(context).length ? context : "",
-      );
-    }
+  info: async (message, context = {}) => {
+    console.log(`[INFO] ${message}`, context);
+    await logtail.info(message, context);
+    await logtail.flush();
   },
-
-  warn: (message, context = {}) => {
-    if (isProd) {
-      logtail.warn(message, context);
-    } else {
-      console.warn(
-        `[WARN] ${message}`,
-        Object.keys(context).length ? context : "",
-      );
-    }
+  warn: async (message, context = {}) => {
+    console.warn(`[WARN] ${message}`, context);
+    await logtail.warn(message, context);
+    await logtail.flush();
   },
-
-  error: (message, context = {}) => {
-    if (isProd) {
-      logtail.error(message, context);
-    } else {
-      console.error(
-        `[ERROR] ${message}`,
-        Object.keys(context).length ? context : "",
-      );
-    }
+  error: async (message, error = null, context = {}) => {
+    console.error(`[ERROR] ${message}`, error);
+    await logtail.error(message, {
+      ...context,
+      errorMessage: error?.message || error,
+      stack: error?.stack || null,
+    });
+    await logtail.flush();
   },
 };
