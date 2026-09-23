@@ -9,7 +9,7 @@ export const getSupportTicketStatuses = async (req, res) => {
     });
     return res.status(200).json({ data: statuses });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -19,7 +19,7 @@ export const getAllSupportTicketStatuses = async (req, res) => {
     const statuses = await prisma.supportTicketStatuses.findMany();
     return res.status(200).json({ data: statuses });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -38,7 +38,7 @@ export const getSupportTicketStatusById = async (req, res) => {
 
     return res.status(200).json({ data: status });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -67,7 +67,7 @@ export const addSupportTicketStatus = async (req, res) => {
       data: createdStatus,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -108,7 +108,7 @@ export const updateSupportTicketStatus = async (req, res) => {
       data: updatedStatus,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -140,7 +140,7 @@ export const toggleSupportTicketStatus = async (req, res) => {
       msg: "Support ticket status changed successfully.",
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

@@ -10,7 +10,7 @@ export const getPaymentMethods = async (req, res) => {
     });
     return res.status(200).json({ data: methods });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -29,7 +29,7 @@ export const getPaymentMethodById = async (req, res) => {
       return res.status(400).json({ error: "Payment method not found." });
     return res.status(200).json({ data: method });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -39,7 +39,7 @@ export const getAllPaymentMethods = async (req, res) => {
     const methods = await prisma.paymentMethods.findMany();
     return res.status(200).json({ data: methods });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -56,7 +56,7 @@ export const addPaymentMethod = async (req, res) => {
       .status(201)
       .json({ msg: "Payment method added successfully.", data: createdMethod });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(200).json({ error: "Internal server error." });
   }
 };
@@ -98,7 +98,7 @@ export const updatePaymentMethod = async (req, res) => {
       data: updatedMethod,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -125,7 +125,7 @@ export const changePaymentMethodActiveness = async (req, res) => {
       data: changedMethod,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

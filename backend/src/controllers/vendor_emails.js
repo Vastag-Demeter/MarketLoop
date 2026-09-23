@@ -8,7 +8,7 @@ export const getVendorEmails = async (req, res) => {
     });
     return res.status(200).json({ data: emails });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -51,7 +51,7 @@ export const addVendorEmail = async (req, res) => {
       .status(201)
       .json({ msg: "Vendor email created successfully.", data: createdEmail });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -102,7 +102,7 @@ export const updateVendorEmail = async (req, res) => {
       .status(200)
       .json({ msg: "Vendor email updated successfully.", data: updatedEmail });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -133,7 +133,7 @@ export const changeVendorEmailActiveness = async (req, res) => {
       data: changedEmail,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

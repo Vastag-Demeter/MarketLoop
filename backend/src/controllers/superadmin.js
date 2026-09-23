@@ -24,7 +24,7 @@ export const getAllUsers = async (req, res) => {
 
     return res.status(200).json({ data: users });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -61,7 +61,7 @@ export const createStaff = async (req, res) => {
       .status(201)
       .json({ msg: "Staff member created successfully.", data: result });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -90,7 +90,7 @@ export const toggleUserStatus = async (req, res) => {
     const status = updatedUser.active ? "activated" : "deactivated";
     return res.status(200).json({ msg: `User successfully ${status}.` });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

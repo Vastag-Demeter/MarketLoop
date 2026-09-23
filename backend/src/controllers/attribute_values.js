@@ -24,7 +24,7 @@ export const getAttributeValues = async (req, res) => {
     });
     return res.status(200).json({ data: attributeValues });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -76,7 +76,7 @@ export const getAttributeValuesByVariantId = async (req, res) => {
 
     return res.status(200).json({ data: values });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -106,7 +106,7 @@ export const addAttributeValue = async (req, res) => {
       data: createdAttribute,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -137,7 +137,7 @@ export const updateAttributeValue = async (req, res) => {
       data: updatedAttribute,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -162,7 +162,7 @@ export const changeAttributeValueActiveness = async (req, res) => {
       data: changedAttributeValue,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

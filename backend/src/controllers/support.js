@@ -123,7 +123,7 @@ export const replyToTicket = async (req, res) => {
 
     return res.status(200).json({ msg: "Response sent and email dispatched." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -144,7 +144,7 @@ export const getSupportTickets = async (req, res) => {
 
     return res.status(200).json({ data: tickets });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -173,7 +173,7 @@ export const getSupportTicketById = async (req, res) => {
     if (!ticket) return res.status(404).json({ error: "Ticket not found." });
     return res.status(200).json({ data: ticket });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -201,7 +201,7 @@ export const getSupportTicketByToken = async (req, res) => {
     if (!ticket) return res.status(404).json({ error: "Ticket not found." });
     return res.status(200).json({ data: ticket });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -241,7 +241,7 @@ export const replyToTicketByCustomer = async (req, res) => {
       .status(201)
       .json({ msg: "Response sent successfully.", data: result });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -300,7 +300,7 @@ export const toggleTicketStatus = async (req, res) => {
       .status(201)
       .json({ msg: "Status toggled successfully.", data: result });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

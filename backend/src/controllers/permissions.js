@@ -13,7 +13,7 @@ export const getPermissions = async (req, res) => {
     });
     return res.status(200).json({ data: permissions });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -57,7 +57,7 @@ export const addPermissionToRole = async (req, res) => {
     });
     return res.status(201).json({ msg: "Permission added to role." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -88,7 +88,7 @@ export const deletePermissionFromRole = async (req, res) => {
 
     return res.status(201).json({ msg: "Permission added to role." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

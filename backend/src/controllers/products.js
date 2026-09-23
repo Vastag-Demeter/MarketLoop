@@ -40,7 +40,7 @@ export const getActiveProducts = async (req, res) => {
     });
     return res.status(200).json({ data: products });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -82,7 +82,7 @@ export const getAllProducts = async (req, res) => {
     });
     return res.status(200).json({ data: products });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -159,7 +159,7 @@ export const getProductById = async (req, res) => {
 
     return res.status(200).json({ data: product });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -183,7 +183,7 @@ export const addProduct = async (req, res) => {
       .status(201)
       .json({ msg: "Product created successfully.", data: createdProduct });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -212,7 +212,7 @@ export const updateProducts = async (req, res) => {
       .status(200)
       .json({ msg: "Product updated successfully.", data: updatedProduct });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -241,7 +241,7 @@ export const changeProductActiveness = async (req, res) => {
       data: changedProduct,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

@@ -9,7 +9,7 @@ export const getEmailTypes = async (req, res) => {
     });
     return res.status(200).json({ data: emailTypes });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -19,7 +19,7 @@ export const getAllEmailTypes = async (req, res) => {
     const emailType = await prisma.emailTypes.findMany();
     return res.status(200).json({ data: emailType });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -38,7 +38,7 @@ export const getEmailTypeById = async (req, res) => {
         .json({ error: "Email type not exists with the given ID." });
     return res.status(200).json({ data: type });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -66,7 +66,7 @@ export const addEmailType = async (req, res) => {
       .status(201)
       .json({ msg: "Email type created successfully.", data: newType });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -94,7 +94,7 @@ export const updateEmailType = async (req, res) => {
       .status(200)
       .json({ msg: "Email type updated successfully", data: updatedType });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -123,7 +123,7 @@ export const toggleEmailTypeActiveness = async (req, res) => {
 
     return res.status(200).json({ msg: "Status changed successfully." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

@@ -175,7 +175,7 @@ export const signup = async (req, res) => {
 
     return res.status(201).json({ msg: "Signup successfull." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json("Internal server error");
   }
 };

@@ -31,7 +31,7 @@ export const addPhoneNumber = async (req, res) => {
       data: createdPhoneNumber,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -67,7 +67,7 @@ export const updatePhoneNumber = async (req, res) => {
       data: updatedPhoneNumber,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -100,7 +100,7 @@ export const deletePhoneNumber = async (req, res) => {
 
     return res.status(404).json({ error: "Phone number not found." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

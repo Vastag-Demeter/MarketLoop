@@ -1,4 +1,5 @@
 import prisma from "../constants/db.js";
+import { logger } from "../utils/logger.js";
 
 export const getAddresses = async (req, res) => {
   const userID = req.user.user_id;
@@ -42,7 +43,7 @@ export const getAddresses = async (req, res) => {
 
     return res.status(200).json({ data: addresses });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -59,7 +60,7 @@ export const addAddress = async (req, res) => {
       .status(201)
       .json({ msg: "Address added successfully.", data: address });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -99,7 +100,7 @@ export const updateAddress = async (req, res) => {
       .status(201)
       .json({ msg: "Address updated successfully.", data: updatedAdress });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -128,7 +129,7 @@ export const deleteAddress = async (req, res) => {
     });
     return res.status(200).json({ msg: "Address deleted successfully." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

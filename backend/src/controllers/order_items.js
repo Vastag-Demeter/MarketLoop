@@ -33,7 +33,7 @@ export const getOrderItems = async (req, res) => {
         .json({ error: "Order item not found with the given ID." });
     return res.status(200).json({ data: items });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -72,7 +72,7 @@ export const getOrderItemById = async (req, res) => {
         .json({ error: "Order item not found with the given ID." });
     return res.status(200).json({ data: item });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

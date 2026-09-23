@@ -6,7 +6,5 @@ dotenv.config();
 const port = process.env.BACKEND_PORT || process.env.PORT || 4000;
 
 app.listen(port, "0.0.0.0", () => {
-  console.log(process.env.FRONTEND_API_URL);
-  logger.info("Server is running");
-  console.log(`Server is running at http://localhost:${port}`);
+  logger.info("Server started...");
 });

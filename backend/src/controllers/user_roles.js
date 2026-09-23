@@ -35,7 +35,7 @@ export const addUserRole = async (req, res) => {
 
     return res.status(201).json({ msg: "Role successfully given to user." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -61,7 +61,7 @@ export const deleteUserRole = async (req, res) => {
 
     return res.status(200).json({ msg: "User role deleted successfully." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

@@ -9,7 +9,7 @@ export const getCategories = async (req, res) => {
     const categories = await prisma.categories.findMany();
     return res.status(200).json({ data: categories });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -23,7 +23,7 @@ export const getActiveCategories = async (req, res) => {
     });
     return res.status(200).json({ data: categories });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -38,7 +38,7 @@ export const getCategoryById = async (req, res) => {
       return res.status(404).json({ error: "Category not found." });
     return res.status(200).json({ data: category });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -57,7 +57,7 @@ export const addCategory = async (req, res) => {
       .status(201)
       .json({ msg: "Category created successfully.", data: createdCategory });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -79,7 +79,7 @@ export const updateCategory = async (req, res) => {
       .status(200)
       .json({ msg: "Category updated successfully.", data: updatedCategory });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -102,7 +102,7 @@ export const changeCategoryActiveness = async (req, res) => {
       data: changedCategory,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

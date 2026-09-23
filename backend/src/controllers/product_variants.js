@@ -26,7 +26,7 @@ export const getProductVariants = async (req, res) => {
     });
     return res.status(200).json({ data: productVariants });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -54,7 +54,7 @@ export const getActiveProductVariants = async (req, res) => {
     });
     return res.status(200).json({ data: productVariants });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -89,7 +89,7 @@ export const getProductVariantById = async (req, res) => {
       return res.status(400).json({ Error: "This product is inactive." });
     return res.status(200).json({ data: productVariant });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -110,7 +110,7 @@ export const addProductVariant = async (req, res) => {
       data: createdVariant,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -143,7 +143,7 @@ export const updateProductVariant = async (req, res) => {
       data: updatedVariant,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -171,7 +171,7 @@ export const changeProductVariantActiveness = async (req, res) => {
       data: changedVariant,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -196,7 +196,7 @@ export const restockProductVariant = async (req, res) => {
       data: restockedVariant,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

@@ -9,7 +9,7 @@ export const getAllAttributes = async (req, res) => {
     });
     return res.status(200).json({ data: attributes });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -31,7 +31,7 @@ export const getActiveAttributes = async (req, res) => {
 
     return res.status(200).json({ data: attributes });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -48,7 +48,7 @@ export const addAttribute = async (req, res) => {
       .status(201)
       .json({ msg: "Attribute created successfully.", data: createdAttribute });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -67,7 +67,7 @@ export const updateAttribute = async (req, res) => {
       .status(200)
       .json({ msg: "Attribute updated successfully.", data: updatedAttribute });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -93,7 +93,7 @@ export const changeAttributeActiveness = async (req, res) => {
       data: changedAttribute,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

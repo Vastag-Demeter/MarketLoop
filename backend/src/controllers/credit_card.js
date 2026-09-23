@@ -11,7 +11,7 @@ export const getCreditCards = async (req, res) => {
     });
     return res.status(200).json({ data: creditCards });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -33,7 +33,7 @@ export const addCreditCard = async (req, res) => {
       .status(201)
       .json({ msg: "Credit card added successfully.", data: creditCard });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -69,7 +69,7 @@ export const updateCreditCard = async (req, res) => {
       .status(200)
       .json({ msg: "Credit card updated successfully", data: creditCard });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -98,7 +98,7 @@ export const deleteCreditCard = async (req, res) => {
 
     return res.status(200).json({ msg: "Credit card deleted successfully" });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };

@@ -6,7 +6,7 @@ export const getOrderStatuses = async (req, res) => {
 
     return res.status(200).json({ data: statuses });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -26,7 +26,7 @@ export const getOrderStatusById = async (req, res) => {
 
     return res.status(200).json({ data: status });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -61,7 +61,7 @@ export const addOrderStatus = async (req, res) => {
       .status(201)
       .json({ msg: "Order status added successfully.", data: status });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -94,7 +94,7 @@ export const updateOrderStatus = async (req, res) => {
       .status(200)
       .json({ msg: "Order status updated successfully.", data: updatedStatus });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -127,7 +127,7 @@ export const changeFinalOrderStatus = async (req, res) => {
       data: updatedStatus,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -154,7 +154,7 @@ export const deleteOrderStatus = async (req, res) => {
 
     return res.status(200).json({ msg: "Order status deleted successfully." });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
