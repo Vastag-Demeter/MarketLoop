@@ -1,5 +1,6 @@
 import prisma from "../constants/db.js";
 import { deleteCartItemSchema } from "../validators/cartItem.validator.js";
+import { logger } from "../utils/logger.js";
 
 export const getCartItems = async (req, res) => {
   const { cart_id } = req.body;

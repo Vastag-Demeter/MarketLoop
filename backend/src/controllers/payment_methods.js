@@ -1,5 +1,6 @@
 import prisma from "../constants/db.js";
 import { ROLES } from "../constants/roles.js";
+import { logger } from "../utils/logger.js";
 
 export const getPaymentMethods = async (req, res) => {
   try {

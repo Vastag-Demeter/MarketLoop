@@ -2,6 +2,7 @@ import { sendEmail } from "../utils/email.js";
 import { activationEmailTemplate } from "../templates/accountActivation.js";
 import prisma from "../constants/db.js";
 import { EMAIL_TYPES } from "../constants/emailTypes.js";
+import { logger } from "../utils/logger.js";
 
 export const editProfile = async (req, res) => {
   const { firstName, lastName } = req.body;
@@ -28,7 +29,7 @@ export const editProfile = async (req, res) => {
       .status(200)
       .json({ msg: "Profile updated successfully", data: updatedUser });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -50,7 +51,7 @@ export const getProfileData = async (req, res) => {
 
     return res.status(200).json({ data: user });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -133,7 +134,7 @@ export const activateAccount = async (req, res) => {
 
     return res.status(200).json({ msg: "User activated successfully." });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -166,7 +167,7 @@ export const disableAccount = async (req, res) => {
       return res.status(201).json({ msg: "User disabled successfully" });
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

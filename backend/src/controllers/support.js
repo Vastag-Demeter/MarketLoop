@@ -8,6 +8,7 @@ import techEmailTemplate from "../templates/replyToTicketTemplate.js";
 import { STATUSES } from "../constants/ticketStatuses.js";
 import ticketCreatedTemplate from "../templates/ticketCreated.js";
 import ticketStatusUpdateTemplate from "../templates/ticketStatusUpdateTemplate.js";
+import { logger } from "../utils/logger.js";
 
 export const createSupportTicket = async (req, res) => {
   const { subject, message, guest_email } = req.body;
@@ -46,7 +47,6 @@ export const createSupportTicket = async (req, res) => {
 
       return ticket;
     });
-    console.log(result);
     const url = `${process.env.FRONTED_API_URL}/support/ticket/${result.access_token}`;
     await sendEmail({
       from: `WebShop Helpdesk <helpdesk.webshop@webshop.hu>`,
@@ -248,7 +248,6 @@ export const replyToTicketByCustomer = async (req, res) => {
 
 export const toggleTicketStatus = async (req, res) => {
   const { id } = req.body;
-  console.log("ID: ", id);
   try {
     const result = await prisma.$transaction(async (tx) => {
       const ticket = await tx.supportTickets.findUnique({
@@ -260,8 +259,6 @@ export const toggleTicketStatus = async (req, res) => {
         },
       });
       if (!ticket) return res.status(404).json({ error: "Ticket not found." });
-      console.log("OPEN: ", STATUSES["OPEN"]);
-      console.log("CLOSED: ", STATUSES["CLOSED"]);
       const status_id =
         ticket.ticketStatus.id === STATUSES["OPEN"]
           ? STATUSES["CLOSED"]

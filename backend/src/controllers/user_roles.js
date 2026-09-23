@@ -1,4 +1,5 @@
 import prisma from "../constants/db.js";
+import { logger } from "../utils/logger.js";
 
 export const addUserRole = async (req, res) => {
   const { user_id, role_id } = req.body;

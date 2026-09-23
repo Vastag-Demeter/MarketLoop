@@ -1,4 +1,5 @@
 import prisma from "../constants/db.js";
+import { logger } from "../utils/logger.js";
 
 export const getPermissions = async (req, res) => {
   try {

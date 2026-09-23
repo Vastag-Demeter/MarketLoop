@@ -8,6 +8,7 @@ import {
   getAttributeValuesByVariantIdSchema,
   getAttributeValuesSchema,
 } from "../validators/attributeValue.validator.js";
+import { logger } from "../utils/logger.js";
 
 export const getAttributeValues = async (req, res) => {
   const { attribute_id } = req.params;
@@ -40,7 +41,7 @@ export const getAllAttributeValues = async (req, res) => {
     });
     return res.status(200).json({ data: attributeValues });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };

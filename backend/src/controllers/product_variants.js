@@ -1,6 +1,7 @@
 import prisma from "../constants/db.js";
 import { ROLES } from "../constants/roles.js";
 import { getProductVariantsSchema } from "../validators/productVariant.validator.js";
+import { logger } from "../utils/logger.js";
 
 export const getProductVariants = async (req, res) => {
   const { product_id } = req.params;
@@ -133,7 +134,6 @@ export const updateProductVariant = async (req, res) => {
     if (!variant)
       return res.status(404).json({ error: "Product variant not found." });
 
-    console.log("DATA: ", data);
     const updatedVariant = await prisma.productVariants.update({
       where: { id: id },
       data: data,

@@ -1,4 +1,3 @@
-//Check if the string is empty
 export const isEmptyOrWhiteSpace = (str) => {
   if (typeof str !== "string") {
     return true;
@@ -6,7 +5,6 @@ export const isEmptyOrWhiteSpace = (str) => {
   return str.trim().length === 0;
 };
 
-//Iterates trough the given list and checks if the items are empty
 export const isEmptyOrWhiteSpaceList = (list) => {
   for (const item of list) {
     if (isEmptyOrWhiteSpace(item)) return true;

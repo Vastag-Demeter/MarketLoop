@@ -6,6 +6,8 @@ import {
   orderConfirmationTemplate,
   statusUpdateTemplate,
 } from "../templates/emailTemplates.js";
+import { logger } from "../utils/logger.js";
+
 export const getOrders = async (req, res) => {
   try {
     const orders = await prisma.orders.findMany({
@@ -161,9 +163,8 @@ export const addOrder = async (req, res) => {
           sent_at: new Date(),
         },
       });
-      console.log(`Order confirmation sent and logged for: ${recipientEmail}`);
     } catch (error) {
-      console.error("Email delivery or logging failed:", error);
+      logger.error("Email delivery or logging failed:", error);
     }
     return res.status(201).json({
       msg: "Items ordered successfully.",
@@ -201,7 +202,6 @@ export const changeOrderStatus = async (req, res) => {
 
     const recipientEmail =
       order.user_id === null ? order.customer_email : order.user.email;
-    console.log("RECIPIENT: ", recipientEmail);
     if (recipientEmail) {
       try {
         const subject = `[UPDATE] Phase Change: ${order.order_number}`;
@@ -225,12 +225,8 @@ export const changeOrderStatus = async (req, res) => {
             body: message,
           },
         });
-        console.log(
-          "Order status change email sent and logged to email: ",
-          recipientEmail,
-        );
       } catch (e) {
-        console.error("Email error:", e);
+        logger.error("Email error:", e);
       }
     }
 
@@ -276,7 +272,6 @@ export const cancelOrder = async (req, res) => {
         }),
       ),
     );
-    console.log("CANCEL_EMAIL: ", order.customer_email);
     try {
       const subject = `[TERMINATED] Order Cancelled: ${order.status.name}`;
       const message = statusUpdateTemplate(
@@ -298,12 +293,8 @@ export const cancelOrder = async (req, res) => {
           body: message,
         },
       });
-      console.log(
-        "Order cancel email sent and logged successfully to: ",
-        order.customer_email,
-      );
     } catch (e) {
-      console.error("Email error:", e);
+      logger.error("Email error:", e);
     }
 
     return res.status(200).json({ msg: "Order cancelled successfully." });

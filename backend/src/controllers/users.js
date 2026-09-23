@@ -12,6 +12,7 @@ import { sendEmail } from "../utils/email.js";
 import crypto from "crypto";
 import prisma from "../constants/db.js";
 import { EMAIL_TYPES } from "../constants/emailTypes.js";
+import { logger } from "../utils/logger.js";
 const saltRounds = 10;
 
 //Handle login
@@ -141,7 +142,6 @@ export const signup = async (req, res) => {
         .json({ error: "Signup failed due to internal server error." });
 
     const verificationToken = crypto.randomBytes(32).toString("hex");
-    console.log(process.env.FRONTEND_API_URL);
     const verificationUrl = `${process.env.FRONTEND_API_URL}/verify-email?token=${verificationToken}`;
 
     const insertToken = await prisma.userVerifications.create({
@@ -218,7 +218,7 @@ export const verifyEmail = async (req, res) => {
 
     return res.status(200).json({ msg: "Verified successfully." });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };
@@ -278,12 +278,12 @@ export const sendNewVerificationToken = async (req, res) => {
         },
       });
     } catch (error) {
-      console.log("EMAIL_ERROR: ", error);
+      logger.error(`EMAIL_ERROR: ${error}`);
     }
 
     return res.status(201).json({ msg: "Email sent successfully." });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

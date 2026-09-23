@@ -1,8 +1,5 @@
-import {
-  isEmptyOrWhiteSpace,
-  isEmptyOrWhiteSpaceList,
-} from "../functions/functions.js";
 import prisma from "../constants/db.js";
+import { logger } from "../utils/logger.js";
 
 export const getActiveProducts = async (req, res) => {
   try {

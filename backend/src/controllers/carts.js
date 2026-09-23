@@ -1,6 +1,7 @@
 import { isEmptyOrWhiteSpace } from "../functions/functions.js";
 import prisma from "../constants/db.js";
 import { getCartSchema } from "../validators/cart.validator.js";
+import { logger } from "../utils/logger.js";
 
 export const getCart = async (req, res) => {
   const { error, value } = getCartSchema.validate(req.params);
