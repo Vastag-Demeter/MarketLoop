@@ -5,7 +5,7 @@ import api from "@/src/axios";
 import axios from "axios";
 import https from "https";
 const tokenizeAPI = axios.create({
-  baseURL: process.env.TOKENIZER_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_TOKENIZER_API_URL,
   headers: {
     "Content-Type": "application/json",
     "x-api-key": "webshop",
