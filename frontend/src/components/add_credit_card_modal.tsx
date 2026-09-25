@@ -8,7 +8,7 @@ const tokenizeAPI = axios.create({
   baseURL: process.env.NEXT_PUBLIC_TOKENIZER_API_URL,
   headers: {
     "Content-Type": "application/json",
-    "x-api-key": "webshop",
+    "x-api-key": process.env.NEXT_PUBLIC_TOKENIZER_API_KEY,
   },
 });
 
