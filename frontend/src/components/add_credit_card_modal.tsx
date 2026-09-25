@@ -4,8 +4,10 @@ import { toast } from "sonner";
 import api from "@/src/axios";
 import axios from "axios";
 import https from "https";
+import dotenv from "dotenv";
+dotenv.config();
 const tokenizeAPI = axios.create({
-  baseURL: "https://localhost:3005",
+  baseURL: process.env.TOKENIZER_API_URL,
   headers: {
     "Content-Type": "application/json",
     "x-api-key": "webshop",

@@ -35,7 +35,6 @@ export default function CardsPage() {
   };
 
   const handleDeleteCard = async (id: string) => {
-    // Egy gyors megerősítés a törlés előtt
     if (!confirm("CONFIRM_ASSET_TERMINATION: Are you sure?")) return;
 
     const deletePromise = api.delete(`/api/deleteCreditCard`, {
@@ -65,8 +64,6 @@ export default function CardsPage() {
     <div className="min-h-screen bg-slate-950 p-8 md:p-12 font-mono flex flex-col items-center">
       <div className="w-full max-w-5xl">
         {" "}
-        {/* Szélesebb konténer a gridnek */}
-        {/* Header Szekció */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -94,13 +91,11 @@ export default function CardsPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
           </button>
         </div>
-        {/* Hibaüzenet ha van */}
         {error && (
           <div className="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-xs uppercase tracking-widest text-center">
             Critical_Error: {error}
           </div>
         )}
-        {/* Kártyák Gridje */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-pulse">
             {[1, 2].map((i) => (
@@ -121,7 +116,6 @@ export default function CardsPage() {
             ))}
           </div>
         ) : (
-          /* Üres állapot */
           <div className="py-24 border-2 border-dashed border-slate-900 rounded-[2.5rem] flex flex-col items-center justify-center text-center">
             <div className="text-4xl mb-4 opacity-20 text-slate-500">💳</div>
             <p className="text-slate-500 uppercase tracking-[0.3em] text-[10px]">
@@ -129,7 +123,6 @@ export default function CardsPage() {
             </p>
           </div>
         )}
-        {/* Security Footer */}
         <div className="mt-16 p-8 border border-slate-900 bg-slate-900/20 rounded-[2rem] relative overflow-hidden">
           <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500/30" />
           <div className="space-y-3 relative z-10">
