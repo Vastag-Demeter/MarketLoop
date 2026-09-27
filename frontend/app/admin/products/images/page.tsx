@@ -80,7 +80,7 @@ export default function ProductImagePage() {
       formData.append("upload_preset", "Thesis");
 
       const cloudRes = await fetch(
-        `https://api.cloudinary.com/v1_1/dkqzv5npa/image/upload`,
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_KEY}/image/upload`,
         { method: "POST", body: formData },
       );
 
@@ -108,9 +108,10 @@ export default function ProductImagePage() {
         return "SUCCESS: Visual registry updated.";
       },
       error: (err) => {
+        console.log(err);
         console.log(err.response.data.error);
         setUploading(false);
-        return "SYSTEM_FAILURE: Upload or Database sync failed.";
+        return err;
       },
     });
   };
