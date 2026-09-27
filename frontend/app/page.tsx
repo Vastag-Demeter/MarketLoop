@@ -11,7 +11,6 @@ export default function Home() {
     const fetchCategories = async () => {
       try {
         const res = await api.get("/api/getActiveCategories");
-        // Ha a backend pl. response.data.data-ban küldi:
         setCategories(res.data.data || res.data);
       } catch (err) {
         console.error("Failed to sync categories:", err);

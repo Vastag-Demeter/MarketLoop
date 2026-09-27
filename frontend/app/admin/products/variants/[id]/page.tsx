@@ -21,7 +21,7 @@ import { Product } from "@/src/interfaces/product";
 import Link from "next/link";
 import { toast } from "sonner";
 import EditVariantModal from "@/src/components/admin/modals/edit_variant_modal";
-import AddVariantModal from "@/src/components/superadmin/add_variant_modal"; // ÚJ IMPORT
+import AddVariantModal from "@/src/components/superadmin/add_variant_modal";
 
 interface ProductVariant {
   id: number;
@@ -106,7 +106,7 @@ export default function ProductVariantsPage() {
   const [refreshKey, setRefreshKey] = useState(Date.now());
 
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isAddOpen, setIsAddOpen] = useState(false); // ÚJ
+  const [isAddOpen, setIsAddOpen] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
     null,
   );

@@ -78,8 +78,6 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-slate-950 text-white p-4 md:p-12 font-mono flex flex-col items-center">
         <div className="w-full max-w-3xl">
           {" "}
-          {/* Konténer szélessége korlátozva a fókusz miatt */}
-          {/* Fő fejléc - Középre igazítva */}
           <div className="mb-16 flex flex-col items-center text-center">
             <div className="flex items-center gap-4 mb-2">
               <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-cyan-500/50" />
@@ -92,14 +90,11 @@ export default function ProfilePage() {
               Terminal <span className="text-cyan-500">_Identity_</span>
             </h1>
           </div>
-          {/* KÖZÉPSŐ PANEL */}
           <div className="relative group">
-            {/* Külső dekoratív keret elemek (Sci-fi sarkok) */}
             <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-cyan-500/30 rounded-tl-lg" />
             <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-slate-800 rounded-br-lg" />
 
             <div className="bg-slate-900/40 border border-slate-800 p-8 md:p-12 rounded-[2.5rem] shadow-[0_0_100px_-20px_rgba(6,182,212,0.1)] backdrop-blur-sm relative overflow-hidden">
-              {/* Háttér ID vízjel */}
               <div className="absolute top-8 right-8 opacity-[0.03] text-8xl font-black italic uppercase select-none pointer-events-none">
                 USER_01
               </div>
@@ -110,7 +105,6 @@ export default function ProfilePage() {
                   Core_Identity_Parameters
                 </h2>
 
-                {/* Adat rács - 2 oszlopos elrendezés nagyobb kijelzőn */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                   {[
                     { label: "First_Name", value: profileUser?.first_name },
@@ -164,7 +158,6 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                {/* AKCIÓ GOMBOK - Egymás mellett/alatt stílusosan */}
                 <div className="mt-16 flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={() => {
@@ -191,7 +184,6 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
-          {/* Alsó technikai log */}
           <div className="mt-12 text-center">
             <p className="text-[8px] text-slate-700 font-mono uppercase tracking-[1em]">
               End_To_End_Hardware_Encryption_Active

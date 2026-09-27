@@ -35,16 +35,16 @@ interface TicketMessage {
 
 export default function HelpdeskAdminPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
-  const [statuses, setStatuses] = useState<TicketStatus[]>([]); // Státuszok tárolása
+  const [statuses, setStatuses] = useState<TicketStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeStatusId, setActiveStatusId] = useState<string>("ALL"); // Aktív szűrő
+  const [activeStatusId, setActiveStatusId] = useState<string>("ALL");
   const fetchData = async () => {
     setLoading(true);
     try {
       const [ticketRes, statusRes] = await Promise.all([
         api.get("/api/getSupportTickets"),
-        api.get("/api/getSupportTicketStatuses"), // Feltételezve, hogy van ilyen végpontod
+        api.get("/api/getSupportTicketStatuses"),
       ]);
       setTickets(ticketRes.data.data || []);
       setStatuses(statusRes.data.data || []);

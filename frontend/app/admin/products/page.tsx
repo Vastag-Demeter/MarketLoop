@@ -92,7 +92,6 @@ export default function AdminProductsPage() {
           </div>
         </header>
 
-        {/* TERMÉK GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <ProductCard

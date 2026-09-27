@@ -30,7 +30,7 @@ function CancelOrderForm() {
         return res.data.msg;
       },
       error: (error: any) => {
-        return error.response?.data?.error || "Hiba történt a törlés során";
+        return error.response?.data?.error || "We couldn't cancel the order.";
       },
     });
     setIsPending(false);

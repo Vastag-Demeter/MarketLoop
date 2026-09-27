@@ -43,7 +43,6 @@ export default function HelpdeskPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 font-sans py-20 px-6">
       <div className="max-w-xl mx-auto">
-        {/* Egyszerű Header */}
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-bold text-white mb-2">CONTACT</h1>
           <p className="text-slate-400 text-sm">
@@ -79,7 +78,6 @@ export default function HelpdeskPage() {
             </div>
           </div>
 
-          {/* Tárgy */}
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-slate-400 ml-1">
               Subject
@@ -102,10 +100,9 @@ export default function HelpdeskPage() {
             </div>
           </div>
 
-          {/* Üzenet */}
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-slate-400 ml-1">
-              Üzenet
+              Message
             </label>
             <div className="relative">
               <MessageSquare
@@ -125,7 +122,6 @@ export default function HelpdeskPage() {
             </div>
           </div>
 
-          {/* Küldés gomb - Sima kék */}
           <button
             type="submit"
             disabled={isSubmitting}

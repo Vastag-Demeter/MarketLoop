@@ -36,7 +36,6 @@ export default function EditAddressModal({
           </div>
 
           <form onSubmit={onUpdate} className="space-y-5 text-left">
-            {/* Rejtett ID mező (opcionális, mert a formData-ban benne van) */}
             <div className="text-[8px] text-cyan-500/30 uppercase mb-2">
               Target_Node_ID: {formData.id}
             </div>

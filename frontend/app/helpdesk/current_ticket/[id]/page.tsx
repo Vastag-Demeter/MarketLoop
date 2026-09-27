@@ -149,8 +149,8 @@ export default function TicketDetailPage() {
                     <div
                       className={`max-w-[80%] p-4 rounded-2xl border ${
                         isAgent
-                          ? "bg-slate-900/80 border-slate-700 text-slate-200 rounded-tl-none" // Agent stílus (Balra)
-                          : "bg-cyan-900/20 border-cyan-500/30 text-cyan-50 rounded-tr-none" // Ügyfél stílus (Jobbra)
+                          ? "bg-slate-900/80 border-slate-700 text-slate-200 rounded-tl-none"
+                          : "bg-cyan-900/20 border-cyan-500/30 text-cyan-50 rounded-tr-none"
                       }`}
                     >
                       <div className="flex items-center gap-2 mb-1.5 opacity-50 text-[10px] font-black uppercase tracking-widest">

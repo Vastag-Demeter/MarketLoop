@@ -20,7 +20,6 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <NavBar />
-            {/* A pt-20 (5rem/80px) pontosan a NavBar magassága */}
             <main className="pt-20">{children}</main>
             <Toaster position="top-left" theme="dark" richColors />
           </CartProvider>

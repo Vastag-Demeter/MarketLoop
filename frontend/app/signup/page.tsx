@@ -19,7 +19,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      toast.error("A jelszavak nem egyeznek!");
+      toast.error("Your passwords do not match.");
       return;
     }
 
@@ -31,13 +31,13 @@ export default function RegisterPage() {
     });
 
     toast.promise(promise, {
-      loading: "Fiók létrehozása...",
+      loading: "Creating your account...",
       success: () => {
         setTimeout(() => router.push("/login"), 2000);
-        return "Sikeres regisztráció!";
+        return "Your account has been created successfully.";
       },
       error: (err) =>
-        err.response?.data?.error || "Hiba történt a regisztráció során.",
+        err.response?.data?.error || "We couldn't complete your registration.",
     });
   };
 
@@ -142,7 +142,6 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Fő gomb - Modern kék */}
             <button
               type="submit"
               className="w-full group mt-6 flex items-center justify-center gap-3 py-4 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-2xl transition-all shadow-lg shadow-cyan-500/10 active:scale-[0.98]"

@@ -103,7 +103,7 @@ export default function EditCategoryModal({
             >
               <option value="">-- ROOT_LEVEL (No Parent) --</option>
               {allCategories
-                .filter((c) => c.id !== category?.id) // Ne lehessen önmaga a szülője
+                .filter((c) => c.id !== category?.id)
                 .map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}

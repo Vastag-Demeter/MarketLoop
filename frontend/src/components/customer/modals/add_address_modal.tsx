@@ -48,7 +48,7 @@ export default function AddAddressModal({
                   setFormData({ ...formData, country: e.target.value })
                 }
                 className="w-full bg-slate-950/80 border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500/50 transition-all font-bold italic"
-                placeholder="Magyarország"
+                placeholder="Hungary"
               />
             </div>
 
@@ -98,7 +98,7 @@ export default function AddAddressModal({
                     setFormData({ ...formData, street: e.target.value })
                   }
                   className="w-full bg-slate-950/80 border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500/50 transition-all font-bold italic"
-                  placeholder="Budafoki út"
+                  placeholder="Budafoki Road"
                 />
               </div>
               <div className="col-span-1">

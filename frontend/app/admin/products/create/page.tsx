@@ -40,7 +40,6 @@ export default function CreateProductPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Átalakítjuk az adatokat a backend számára
     const dataToSubmit = {
       ...formData,
       category_id: parseInt(formData.category_id), // String -> Integer

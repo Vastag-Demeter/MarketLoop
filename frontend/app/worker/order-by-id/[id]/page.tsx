@@ -150,7 +150,6 @@ export default function OrderDetailPage() {
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-center text-slate-600">
-                        {/* Itt lehetne termék kép: <img src={item.image} /> */}
                         <Package size={24} />
                       </div>
                       <div>
