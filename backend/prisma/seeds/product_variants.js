@@ -1,16 +1,16 @@
 export const seedVariants = async (prisma) => {
   console.log("Starting comprehensive variant seeding...");
 
-  // Segédadatok lekérése
+  // Fetch supporting data
   const products = await prisma.products.findMany();
   const allAttributes = await prisma.attributeValues.findMany({
     include: { attribute: true },
   });
 
-  // 1. Alapértelmezett "Fekete" variáns minden termékhez
+  // 1. Default "Black" variant for every product
   console.log("Creating default black variants for all products...");
   const blackColor = allAttributes.find(
-    (a) => a.value === "Fekete" && a.attribute.name === "COLOR",
+    (a) => a.value === "Black" && a.attribute.name === "COLOR",
   );
 
   for (const product of products) {
@@ -33,27 +33,27 @@ export const seedVariants = async (prisma) => {
     }
   }
 
-  // 2. Specifikus variánsok létrehozása (Példa adatok)
+  // 2. Create specific variants (sample data)
   const extraVariants = [
-    // Mechanikus Billentyűzet (TECH-KB-01) - Fehér kiadás
+    // Mechanical Keyboard (TECH-KB-01) - White edition
     {
       product_sku: "TECH-KB-01",
       variant_sku: "TECH-KB-01-WHT",
       price_modifier: 2000.0,
       stock: 15,
       attrs: [
-        { name: "COLOR", value: "Fehér" },
+        { name: "COLOR", value: "White" },
         { name: "WARRANTY", value: "2 years" },
       ],
     },
-    // Oversized Fekete Póló (FASH-TEE-OVERS) - Különböző méretek
+    // Oversized Black Shirt (FASH-TEE-OVERS) - Different sizes
     {
       product_sku: "FASH-TEE-OVERS",
       variant_sku: "FASH-TEE-OVERS-L",
       price_modifier: 0.0,
       stock: 100,
       attrs: [
-        { name: "COLOR", value: "Fekete" },
+        { name: "COLOR", value: "Black" },
         { name: "SIZE", value: "L" },
       ],
     },
@@ -63,29 +63,29 @@ export const seedVariants = async (prisma) => {
       price_modifier: 0.0,
       stock: 45,
       attrs: [
-        { name: "COLOR", value: "Fekete" },
+        { name: "COLOR", value: "Black" },
         { name: "SIZE", value: "S" },
       ],
     },
-    // Air Jordan 1 (SHO-NIKE-AJ1) - Piros, 42-es (ha van ilyen attr)
+    // Air Jordan 1 (SHO-NIKE-AJ1) - Red, size 42
     {
       product_sku: "SHO-NIKE-AJ1",
       variant_sku: "SHO-NIKE-AJ1-RED-42",
       price_modifier: 5000.0,
       stock: 5,
       attrs: [
-        { name: "COLOR", value: "Piros" },
+        { name: "COLOR", value: "Red" },
         { name: "SIZE", value: "42" },
       ],
     },
-    // Kerámia Bögre (HOME-MUG-BLUE) - Egyedi méret
+    // Ceramic Mug (HOME-MUG-BLUE) - Custom size
     {
       product_sku: "HOME-MUG-BLUE",
       variant_sku: "HOME-MUG-BLUE-750",
       price_modifier: 800.0,
       stock: 30,
       attrs: [
-        { name: "COLOR", value: "Kék" },
+        { name: "COLOR", value: "Blue" },
         { name: "VOLUME", value: "750ml" },
       ],
     },
@@ -107,7 +107,7 @@ export const seedVariants = async (prisma) => {
       },
     });
 
-    // Attribútumok összekötése
+    // Link attributes to the variant
     for (const attrMatch of vData.attrs) {
       const targetAttr = allAttributes.find(
         (a) =>

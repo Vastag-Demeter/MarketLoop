@@ -95,48 +95,38 @@ export const seedProducts = async (prisma) => {
       });
     }
 
-    //Insert products
     console.log("Starting seeding products");
     const products = [
-      // Eredetiek megtartva...
-      {
-        sku: "ALSIKM",
-        name: "Best Product",
-        description: "This is the description of the product",
-        category_id: 1,
-        vendor_id: 1,
-        base_price: 10.0,
-      },
       {
         sku: "TECH-KB-01",
-        name: "Mechanikus Billentyűzet",
-        description: "RGB világítású, barna kapcsolós mechanikus billentyűzet.",
+        name: "Mechanical Keyboard",
+        description:
+          "A mechanical keyboard with RGB ligting. Contains brown switches.",
         category_id: 8,
         vendor_id: 8,
         base_price: 25990.0,
       },
       {
         sku: "HOME-MUG-BLUE",
-        name: "Kerámia Bögre - Kék",
-        description: "350ml-es, kézzel festett kék kerámia bögre.",
+        name: "Cheramic Mug",
+        description: "Hand-painted cheramic mug.",
         category_id: 14,
         vendor_id: 3,
         base_price: 1500.0,
       },
       {
         sku: "SPORT-BOT-750",
-        name: "Sport Kulacs 750ml",
-        description: "BPA-mentes műanyag kulacs, cseppmentes záródással.",
+        name: "Sport water bottle",
+        description: "BPA-free water bottle.",
         category_id: 18,
         vendor_id: 5,
         base_price: 3200.0,
       },
 
-      // Új Tech termékek
       {
         sku: "GPU-RTX-4080",
         name: "Nvidia RTX 4080 Super",
-        description: "16GB GDDR6X memória, Ray Tracing támogatás.",
+        description: "16GB GDDR6X memory, Ray Tracing support.",
         category_id: 6,
         vendor_id: 6,
         base_price: 480000.0,
@@ -144,7 +134,7 @@ export const seedProducts = async (prisma) => {
       {
         sku: "LAP-ROG-ZEPH",
         name: "ROG Zephyrus G14",
-        description: "AMD Ryzen 9, 32GB RAM, RTX 4070, OLED kijelző.",
+        description: "AMD Ryzen 9, 32GB RAM, RTX 4070, OLED display.",
         category_id: 7,
         vendor_id: 6,
         base_price: 750000.0,
@@ -152,17 +142,17 @@ export const seedProducts = async (prisma) => {
       {
         sku: "MON-SAM-G7",
         name: "Samsung Odyssey G7",
-        description: "32 inch, 240Hz, 1ms válaszidő, ívelt gamer monitor.",
+        description:
+          "32 inch, 240Hz, 1ms responset time, curved gamer monitor.",
         category_id: 8,
         vendor_id: 9,
         base_price: 185000.0,
       },
 
-      // Új Fashion termékek
       {
         sku: "FASH-TEE-OVERS",
-        name: "Oversized Fekete Póló",
-        description: "100% organikus pamut, kényelmes viselet.",
+        name: "Oversized shirt",
+        description: "100% organic cotton, comfortable fit.",
         category_id: 9,
         vendor_id: 2,
         base_price: 8900.0,
@@ -170,7 +160,7 @@ export const seedProducts = async (prisma) => {
       {
         sku: "FASH-HOOD-GREY",
         name: "Urban Grey Hoodie",
-        description: "Vastag, bélelt kapucnis pulóver téli napokra.",
+        description: "Heavy, fitted hoodie for urban use.",
         category_id: 10,
         vendor_id: 2,
         base_price: 18500.0,
@@ -178,35 +168,33 @@ export const seedProducts = async (prisma) => {
       {
         sku: "SHO-NIKE-AJ1",
         name: "Air Jordan 1 Retro",
-        description: "Klasszikus magas szárú kosárlabda cipő.",
+        description: "Classic high-top sneakers with a retro look.",
         category_id: 11,
         vendor_id: 7,
         base_price: 65000.0,
       },
 
-      // Új Home termékek
       {
         sku: "HOME-DESK-ADJ",
-        name: "Állítható Magasságú Asztal",
-        description: "Elektromos motorral, 160x80 cm-es asztallap.",
+        name: "Adjustable Desk",
+        description: "Electric motor, 160x80 cm desk.",
         category_id: 12,
         vendor_id: 10,
         base_price: 120000.0,
       },
       {
         sku: "HOME-LAMP-SMART",
-        name: "Okos LED Asztali Lámpa",
-        description: "Applikációval vezérelhető, állítható színhőmérséklet.",
+        name: "Smart LED Desk Lamp",
+        description: "Appliance-controlled, adjustable brightness.",
         category_id: 13,
         vendor_id: 9,
         base_price: 14900.0,
       },
 
-      // Új Beauty & Sport
       {
         sku: "BEAU-PERF-BLU",
         name: "Bleu de Chanel 100ml",
-        description: "Friss, fás illat férfiaknak.",
+        description: "Fresh, fancy look for men.",
         category_id: 15,
         vendor_id: 4,
         base_price: 42000.0,
@@ -214,15 +202,15 @@ export const seedProducts = async (prisma) => {
       {
         sku: "SPORT-BIKE-E1",
         name: "Specialized Turbo Vado",
-        description: "Elektromos trekking kerékpár 500Wh akkumulátorral.",
+        description: "Electric touring bike with 500Wh accumulator.",
         category_id: 20,
         vendor_id: 5,
         base_price: 1250000.0,
       },
       {
         sku: "SPORT-DUMB-SET",
-        name: "Állítható Súlyzó Szett",
-        description: "2x20kg-os szett, praktikus hordozótáskában.",
+        name: "Adjustable Weight Set",
+        description: "2x20kg set, practical in a gym bag.",
         category_id: 19,
         vendor_id: 5,
         base_price: 29900.0,
@@ -256,10 +244,10 @@ export const seedProducts = async (prisma) => {
       "COMPATIBILITY",
       "VOLTAGE",
       "VOLUME",
-      "REFRESH_RATE", // Monitorokhoz
-      "MEMORY_CAPACITY", // GPU / Laptophoz
-      "FRAGRANCE_TYPE", // Parfümökhöz
-      "GENDER", // Ruházathoz
+      "REFRESH_RATE",
+      "MEMORY_CAPACITY",
+      "FRAGRANCE_TYPE",
+      "GENDER",
     ];
     for (const name of attributeNames) {
       await prisma.attributes.upsert({

@@ -16,7 +16,7 @@ export const seedAttributeValues = async (prisma) => {
   }
 
   if (colorAttr) {
-    const colors = ["Fekete", "Fehér", "Piros", "Kék", "Ezüst", "RGB"];
+    const colors = ["Black", "White", "Red", "Blue", "Grey", "RGB"];
     for (const c of colors) {
       await prisma.attributeValues.createMany({
         data: { attribute_id: colorAttr.id, value: c },
