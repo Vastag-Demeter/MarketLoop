@@ -104,7 +104,7 @@ export const seedProducts = async (prisma) => {
           "A mechanical keyboard with RGB ligting. Contains brown switches.",
         category_id: 8,
         vendor_id: 8,
-        base_price: 25990.0,
+        base_price: 129.99,
       },
       {
         sku: "HOME-MUG-BLUE",
@@ -112,7 +112,7 @@ export const seedProducts = async (prisma) => {
         description: "Hand-painted cheramic mug.",
         category_id: 14,
         vendor_id: 3,
-        base_price: 1500.0,
+        base_price: 14.99,
       },
       {
         sku: "SPORT-BOT-750",
@@ -120,7 +120,7 @@ export const seedProducts = async (prisma) => {
         description: "BPA-free water bottle.",
         category_id: 18,
         vendor_id: 5,
-        base_price: 3200.0,
+        base_price: 24.99,
       },
 
       {
@@ -129,7 +129,7 @@ export const seedProducts = async (prisma) => {
         description: "16GB GDDR6X memory, Ray Tracing support.",
         category_id: 6,
         vendor_id: 6,
-        base_price: 480000.0,
+        base_price: 999.99,
       },
       {
         sku: "LAP-ROG-ZEPH",
@@ -137,7 +137,7 @@ export const seedProducts = async (prisma) => {
         description: "AMD Ryzen 9, 32GB RAM, RTX 4070, OLED display.",
         category_id: 7,
         vendor_id: 6,
-        base_price: 750000.0,
+        base_price: 1599.99,
       },
       {
         sku: "MON-SAM-G7",
@@ -146,7 +146,7 @@ export const seedProducts = async (prisma) => {
           "32 inch, 240Hz, 1ms responset time, curved gamer monitor.",
         category_id: 8,
         vendor_id: 9,
-        base_price: 185000.0,
+        base_price: 599.99,
       },
 
       {
@@ -155,7 +155,7 @@ export const seedProducts = async (prisma) => {
         description: "100% organic cotton, comfortable fit.",
         category_id: 9,
         vendor_id: 2,
-        base_price: 8900.0,
+        base_price: 29.99,
       },
       {
         sku: "FASH-HOOD-GREY",
@@ -163,7 +163,7 @@ export const seedProducts = async (prisma) => {
         description: "Heavy, fitted hoodie for urban use.",
         category_id: 10,
         vendor_id: 2,
-        base_price: 18500.0,
+        base_price: 59.99,
       },
       {
         sku: "SHO-NIKE-AJ1",
@@ -171,7 +171,7 @@ export const seedProducts = async (prisma) => {
         description: "Classic high-top sneakers with a retro look.",
         category_id: 11,
         vendor_id: 7,
-        base_price: 65000.0,
+        base_price: 180.0,
       },
 
       {
@@ -180,7 +180,7 @@ export const seedProducts = async (prisma) => {
         description: "Electric motor, 160x80 cm desk.",
         category_id: 12,
         vendor_id: 10,
-        base_price: 120000.0,
+        base_price: 499.99,
       },
       {
         sku: "HOME-LAMP-SMART",
@@ -188,7 +188,7 @@ export const seedProducts = async (prisma) => {
         description: "Appliance-controlled, adjustable brightness.",
         category_id: 13,
         vendor_id: 9,
-        base_price: 14900.0,
+        base_price: 79.99,
       },
 
       {
@@ -197,7 +197,7 @@ export const seedProducts = async (prisma) => {
         description: "Fresh, fancy look for men.",
         category_id: 15,
         vendor_id: 4,
-        base_price: 42000.0,
+        base_price: 180.0,
       },
       {
         sku: "SPORT-BIKE-E1",
@@ -205,7 +205,7 @@ export const seedProducts = async (prisma) => {
         description: "Electric touring bike with 500Wh accumulator.",
         category_id: 20,
         vendor_id: 5,
-        base_price: 1250000.0,
+        base_price: 3999.99,
       },
       {
         sku: "SPORT-DUMB-SET",
@@ -213,7 +213,7 @@ export const seedProducts = async (prisma) => {
         description: "2x20kg set, practical in a gym bag.",
         category_id: 19,
         vendor_id: 5,
-        base_price: 29900.0,
+        base_price: 199.99,
       },
     ];
     for (const prod of products) {
